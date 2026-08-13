@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>
+        GOSPLAN13 | 棚卸JANリスト
+    </title>
+
+    <meta name="description" content="CSVから棚卸訂正用のJANバーコード一覧を作成し、A4縦で印刷するWebツールです。">
+
+    <meta name="theme-color" content="#ffffff">
+
+
+    <!-- =====================================================
+         共通CSS
+         ===================================================== -->
+
+    <link rel="stylesheet" href="../css/ress.css">
+
+    <link rel="stylesheet" href="../css/styles.css">
+
+    <link rel="stylesheet" href="../css/header.css">
+
+    <link rel="stylesheet" href="../css/button.css">
+
+    <link rel="stylesheet" href="../css/toggle.css">
+
+
+    <!-- =====================================================
+         Inventory固有CSS
+         ===================================================== -->
+
+    <link rel="stylesheet" href="./css/styles.css">
+
+    <link rel="stylesheet" href="./css/print.css" media="print">
+
+
+    <!-- =====================================================
+         Script
+         ===================================================== -->
+
+    <script src="../dist/site-header.js" type="module"></script>
+
+    <script src="./dist/main.js" type="module"></script>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         共通ヘッダー
+         ===================================================== -->
+
+    <div class="top-panel">
+
+        <div class="top-panel__content">
+
+            <site-header></site-header>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         棚卸JANツール
+         ===================================================== -->
+
+    <main class="inventory-main">
+
+
+        <!-- =================================================
+             タイトル
+             ================================================= -->
+
+        <section class="inventory-heading" aria-labelledby="inventory-title">
+
+            <p class="inventory-heading__eyebrow">
+                INVENTORY BARCODE SHEET
+            </p>
+
+
+            <h2 id="inventory-title" class="inventory-heading__title">
+                棚卸JANリスト
+            </h2>
+
+
+            <p class="inventory-heading__description">
+                CSVから商品名・数量・JANを読み込み、棚卸訂正用のバーコード一覧を作成します。
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             CSV読込
+             ================================================= -->
+
+        <section class="inventory-section inventory-import" aria-labelledby="import-title">
+
+            <div class="inventory-section__heading">
+
+                <h3 id="import-title" class="inventory-section__title">
+                    CSV読込
+                </h3>
+
+            </div>
+
+
+            <input id="csv-file-input" type="file" accept=".csv,text/csv" hidden>
+
+
+            <button id="csv-import-button" type="button"
+                class="glass-button glass-button--primary inventory-import__button">
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="glass-button__icon" viewBox="0 -960 960 960"
+                    aria-hidden="true">
+
+                    <path
+                        d="M440-200h80v-167l64 64 56-57-160-160-160 160 56 57 64-64v167Zm-200 80q-33 0-56.5-23.5T160-200v-560q0-33 23.5-56.5T240-840h320l240 240v400q0 33-23.5 56.5T720-120H240Zm280-440h160L520-720v160Z" />
+
+                </svg>
+
+                CSVを読み込む
+
+            </button>
+
+
+            <p id="selected-file-name" class="inventory-import__file-name" aria-live="polite">
+                CSVファイルが選択されていません
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             出力コントロール
+             ================================================= -->
+
+        <section class="inventory-output-panel" aria-label="出力状態と出力調整">
+
+
+            <!-- =============================================
+                 読込結果
+                 ============================================= -->
+
+            <div class="inventory-summary" aria-live="polite">
+
+
+                <!-- =========================================
+                     読込 → 出力
+                     ========================================= -->
+
+                <div class="inventory-summary__flow">
+
+                    <div class="inventory-summary__flow-main">
+
+
+                        <!-- 読込 -->
+
+                        <dl class="inventory-summary__metric">
+
+                            <dt class="inventory-summary__label">
+                                読み込み
+                            </dt>
+
+                            <dd class="inventory-summary__value">
+
+                                <span id="loaded-count">
+                                    0
+                                </span>
+
+                                <span class="inventory-summary__unit">
+                                    件
+                                </span>
+
+                            </dd>
+
+                        </dl>
+
+
+                        <!-- Arrow -->
+
+                        <span class="inventory-summary__arrow" aria-hidden="true">
+                            →
+                        </span>
+
+
+                        <!-- 出力 -->
+
+                        <dl class="inventory-summary__metric">
+
+                            <dt class="inventory-summary__label">
+                                出力
+                            </dt>
+
+                            <dd class="inventory-summary__value">
+
+                                <span id="output-count">
+                                    0
+                                </span>
+
+                                <span class="inventory-summary__unit">
+                                    件
+                                </span>
+
+                            </dd>
+
+                        </dl>
+
+                    </div>
+
+
+                    <!-- エラー -->
+
+                    <div class="inventory-summary__status">
+
+                        <span class="inventory-summary__status-dot" aria-hidden="true"></span>
+
+                        <span>
+                            エラー
+                        </span>
+
+                        <strong id="error-count">
+                            0
+                        </strong>
+
+                        <span>
+                            件
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================================
+                     印刷枚数
+                     ========================================= -->
+
+                <dl class="inventory-summary__pages">
+
+                    <dt class="inventory-summary__label">
+                        印刷枚数
+                    </dt>
+
+                    <dd class="inventory-summary__value">
+
+                        <span id="page-count">
+                            0
+                        </span>
+
+                        <span class="inventory-summary__unit">
+                            枚
+                        </span>
+
+                    </dd>
+
+                </dl>
+
+            </div>
+
+
+            <!-- =============================================
+                 出力調整
+                 ============================================= -->
+
+            <section class="inventory-settings-section" aria-labelledby="settings-title">
+
+                <div class="inventory-settings__heading">
+
+                    <h3 id="settings-title" class="inventory-settings__title">
+                        出力調整
+                    </h3>
+
+
+                    <p class="inventory-settings__hint">
+                        条件を変更するとプレビューへ反映
+                    </p>
+
+                </div>
+
+
+                <div class="inventory-settings">
+
+
+                    <!-- =====================================
+                         除外条件
+                         ===================================== -->
+
+                    <div class="inventory-settings__row">
+
+                        <p class="inventory-settings__group-title">
+                            除外条件
+                        </p>
+
+
+                        <div class="inventory-settings__options">
+
+                            <label class="inventory-filter-chip">
+
+                                <input id="skip-negative-quantity" class="inventory-filter-chip__input" type="checkbox"
+                                    checked>
+
+                                <span class="inventory-filter-chip__label">
+                                    マイナス数量を除外
+                                </span>
+
+                            </label>
+
+
+                            <label class="inventory-filter-chip">
+
+                                <input id="skip-zero-quantity" class="inventory-filter-chip__input" type="checkbox"
+                                    checked>
+
+                                <span class="inventory-filter-chip__label">
+                                    数量0を除外
+                                </span>
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =====================================
+                         並び順
+                         ===================================== -->
+
+                    <div class="inventory-settings__row">
+
+                        <p class="inventory-settings__group-title">
+                            並び順
+                        </p>
+
+
+                        <fieldset class="inventory-sort">
+
+                            <legend class="inventory-visually-hidden">
+                                並び順
+                            </legend>
+
+
+                            <div class="inventory-sort__options" role="radiogroup" aria-label="並び順">
+
+
+                                <!-- CSV順 -->
+
+                                <label class="inventory-sort__item">
+
+                                    <input class="inventory-sort__radio" type="radio" name="inventory-sort-order"
+                                        value="csv" checked>
+
+                                    <span class="inventory-sort__label">
+                                        CSV順
+                                    </span>
+
+                                </label>
+
+
+                                <!-- 数量 昇順 -->
+
+                                <label class="inventory-sort__item">
+
+                                    <input class="inventory-sort__radio" type="radio" name="inventory-sort-order"
+                                        value="quantity-asc">
+
+                                    <span class="inventory-sort__label">
+                                        数量 ↑
+                                    </span>
+
+                                </label>
+
+
+                                <!-- 数量 降順 -->
+
+                                <label class="inventory-sort__item">
+
+                                    <input class="inventory-sort__radio" type="radio" name="inventory-sort-order"
+                                        value="quantity-desc">
+
+                                    <span class="inventory-sort__label">
+                                        数量 ↓
+                                    </span>
+
+                                </label>
+
+
+                                <!-- JAN順 -->
+
+                                <label class="inventory-sort__item">
+
+                                    <input class="inventory-sort__radio" type="radio" name="inventory-sort-order"
+                                        value="jan">
+
+                                    <span class="inventory-sort__label">
+                                        JAN
+                                    </span>
+
+                                </label>
+
+
+                                <!-- 商品名順 -->
+
+                                <label class="inventory-sort__item">
+
+                                    <input class="inventory-sort__radio" type="radio" name="inventory-sort-order"
+                                        value="product-name">
+
+                                    <span class="inventory-sort__label">
+                                        商品名
+                                    </span>
+
+                                </label>
+
+                            </div>
+
+                        </fieldset>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- =============================================
+                 印刷操作
+                 ============================================= -->
+
+            <div class="inventory-actions" aria-label="出力操作">
+
+                <button id="print-button" type="button"
+                    class="glass-button glass-button--primary inventory-actions__print-button" disabled>
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="glass-button__icon" viewBox="0 -960 960 960"
+                        aria-hidden="true">
+
+                        <path
+                            d="M640-640v-120H320v120h-80v-200h480v200h-80Zm80 180q17 0 28.5-11.5T760-500q0-17-11.5-28.5T720-540q-17 0-28.5 11.5T680-500q0 17 11.5 28.5T720-460Zm-80 260v-160H320v160h320Zm80 80H240v-160H80v-240q0-51 35-85.5t85-34.5h560q51 0 85.5 34.5T880-520v240H720v160Zm80-240v-160q0-17-11.5-28.5T760-560H200q-17 0-28.5 11.5T160-520v160h80v-80h480v80h80Z" />
+
+                    </svg>
+
+                    印刷・PDF
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             エラー
+             ================================================= -->
+
+        <section id="error-section" class="inventory-section inventory-errors" aria-labelledby="error-title" hidden>
+
+            <div class="inventory-section__heading">
+
+                <h3 id="error-title" class="inventory-section__title">
+                    エラー内容
+                </h3>
+
+            </div>
+
+
+            <p class="inventory-errors__description">
+                エラーがある商品も一覧には出力します。バーコード生成できない商品は内容を確認してください。
+            </p>
+
+
+            <div class="inventory-errors__box" tabindex="0">
+
+                <ul id="error-list" class="inventory-errors__list"></ul>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             A4縦プレビュー
+             ================================================= -->
+
+        <section class="inventory-preview-section" aria-labelledby="preview-title">
+
+            <div class="inventory-section__heading">
+
+                <h3 id="preview-title" class="inventory-section__title">
+                    プレビュー
+                </h3>
+
+            </div>
+
+
+            <div id="inventory-preview" class="inventory-preview" aria-label="棚卸JAN印刷プレビュー"></div>
+
+        </section>
+
+
+        <!-- =================================================
+             出力行テンプレート
+
+             1ページ56件
+             左28件 / 右28件
+             ================================================= -->
+
+        <template id="inventory-row-template">
+
+            <article class="inventory-row">
+
+
+                <div class="inventory-row__name">
+
+                    <span class="inventory-row__name-text"></span>
+
+                </div>
+
+
+                <div class="inventory-row__quantity">
+
+                    <span class="inventory-row__quantity-value"></span>
+
+                </div>
+
+
+                <div class="inventory-row__barcode-area">
+
+                    <svg class="inventory-row__barcode" role="img" aria-label="JANバーコード"
+                        preserveAspectRatio="xMidYMid meet"></svg>
+
+
+                    <span class="inventory-row__plu-text"></span>
+
+
+                    <span class="inventory-row__barcode-error" hidden>
+                        バーコード生成不可
+                    </span>
+
+                </div>
+
+            </article>
+
+        </template>
+
+    </main>
+
+
+    <!-- =====================================================
+         フッター
+         ===================================================== -->
+
+    <footer class="footer">
+
+        <small>
+            Copyright © 2026 Gosplan13. All Rights Reserved.
+        </small>
+
+    </footer>
+
+</body>
+
+</html>

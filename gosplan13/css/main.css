@@ -1,0 +1,254 @@
+/**
+ * main.css
+ *
+ * A4プレビューと、画像なしモードの商品ラベルを管理する。
+ *
+ * 画像ありモード固有のレイアウトや画像選択UIは、
+ * main_with_image.cssで管理する。
+ */
+
+/* =========================================================
+   メイン表示領域
+   ========================================================= */
+
+.main {
+    min-width: 0;
+    min-height: 0;
+
+    padding: 1rem;
+
+    display: grid;
+    place-items: center;
+
+    /*
+     * 子要素でcqw・cqhを使えるようにする。
+     */
+    container-type: size;
+}
+
+
+/* =========================================================
+   A4プレビュー
+   ========================================================= */
+
+.a4-preview {
+    /*
+     * 親領域へ収まる範囲で、
+     * A4横297:210の比率を維持する。
+     */
+    width: min(100cqw,
+            calc(100cqh * 297 / 210));
+
+    aspect-ratio: 297 / 210;
+
+    padding: 1.5cqw;
+    gap: 0.5cqw;
+
+    box-sizing: border-box;
+
+    display: grid;
+
+    /*
+     * 画像なしモードでは、
+     * 6列×8行の48面を使用する。
+     */
+    grid-template-columns:
+        repeat(6, minmax(0, 1fr));
+
+    grid-template-rows:
+        repeat(8, minmax(0, 1fr));
+
+    background-color: #ffffff;
+
+    /*
+     * 商品ラベル内でcqw・cqhを使えるようにする。
+     */
+    container-name: a4-sheet;
+    container-type: size;
+}
+
+
+/* =========================================================
+   商品ラベル共通
+   ========================================================= */
+
+.product-label {
+    min-width: 0;
+    min-height: 0;
+
+    padding: 0.4cqw;
+
+    box-sizing: border-box;
+
+    display: grid;
+
+    /*
+     * 画像なしモードの基本構成。
+     *
+     * 1行目: 商品名
+     * 2行目: バーコード
+     * 3行目: JAN入力欄
+     */
+    grid-template-rows:
+        auto minmax(0, 1fr) auto;
+
+    row-gap: 0;
+
+    overflow: hidden;
+
+    border: 0.0625rem solid #b8bec8;
+}
+
+
+/* =========================================================
+   商品名
+   ========================================================= */
+
+.product-label__name-area {
+    min-width: 0;
+
+    grid-row: 1;
+}
+
+.product-label__name-input {
+    display: block;
+
+    width: 100%;
+    min-width: 0;
+
+    box-sizing: border-box;
+
+    font-size: 1.2cqw;
+}
+
+
+/* =========================================================
+   画像領域
+   ========================================================= */
+
+/*
+ * 画像なしモードでは画像領域を表示しない。
+ *
+ * 画像ありモードでの表示切替は、
+ * main_with_image.cssが担当する。
+ */
+.product-label__image-area {
+    display: none;
+
+    min-width: 0;
+    min-height: 0;
+}
+
+
+/* =========================================================
+   バーコード表示領域
+   ========================================================= */
+
+.product-label__barcode-area {
+    min-width: 0;
+    min-height: 0;
+
+    width: 100%;
+    height: 100%;
+
+    box-sizing: border-box;
+
+    grid-row: 2;
+
+    /*
+     * SVGと未入力時の案内文字を、
+     * 同じセルへ重ねる。
+     */
+    display: grid;
+    place-items: center;
+
+    border: 0.06cqw dashed #b8bec8;
+    border-radius: 0.2cqw;
+
+    overflow: hidden;
+}
+
+.product-label__barcode,
+.product-label__barcode-placeholder {
+    grid-area: 1 / 1;
+}
+
+.product-label__barcode {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+}
+
+.product-label__barcode-placeholder {
+    color: #8a919d;
+
+    font-size: 0.55cqw;
+    line-height: 1;
+    text-align: center;
+
+    pointer-events: none;
+}
+
+.product-label__barcode-placeholder[hidden] {
+    display: none;
+}
+
+
+/* =========================================================
+   JAN入力欄
+   ========================================================= */
+
+.product-label__jan-area {
+    min-width: 0;
+
+    grid-row: 3;
+
+    /*
+     * inputがインライン要素として作る、
+     * ベースライン下側の余白を防ぐ。
+     */
+    line-height: 0;
+}
+
+.product-label__jan-input {
+    display: block;
+
+    width: 100%;
+    min-width: 0;
+    height: 2.2cqh;
+
+    box-sizing: border-box;
+
+    font-size: 0.85cqw;
+}
+
+
+
+.ribbon__item {
+    display: flex;
+    gap: 2rem;
+}
+
+.base-options {
+    display: flex;
+    gap: 0.4rem;
+    position: relative;
+}
+
+.base-options::after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    right: -1rem;
+    top: 10%;
+    width: 1px;
+    height: 80%;
+    border-left: 1px solid #a5a5a5;
+}
+
+.ribbon__option {
+    gap: 0.4rem;
+}

@@ -1,0 +1,1752 @@
+/**
+ * home.css
+ *
+ * WORKBENCH 親ポータル画面専用スタイル。
+ *
+ * 担当:
+ *
+ * - ツール一覧
+ * - ツールカード
+ * - 定型印刷物一覧
+ * - 定型印刷物カード
+ * - 新規追加カード
+ * - 定型印刷物管理ボタン
+ * - 定型印刷物管理モーダル
+ * - 定型印刷物編集フォーム
+ *
+ * 共通Header / Footer / Buttonの見た目は
+ * ルートの共通CSS側で管理する。
+ */
+
+
+/* =========================================================
+   メイン
+   ========================================================= */
+
+.portal-main {
+    width: min(100% - 3rem, 80rem);
+
+    margin-inline: auto;
+
+    padding-block:
+        2.5rem 4rem;
+}
+
+
+/* =========================================================
+   共通セクション見出し
+   ========================================================= */
+
+.portal-section-heading {
+    margin-bottom: 1.25rem;
+}
+
+
+.portal-section-heading__eyebrow {
+    margin:
+        0 0 0.25rem;
+
+    color: #6b7280;
+
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+}
+
+
+.portal-section-heading__title-row {
+    display: flex;
+
+    align-items: center;
+
+    gap: 0.5rem;
+}
+
+
+.portal-section-heading__title {
+    margin: 0;
+
+    color: #1f2937;
+
+    font-size: 1.4rem;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+
+.portal-section-heading__description {
+    margin:
+        0.4rem 0 0;
+
+    color: #6b7280;
+
+    font-size: 0.9rem;
+    line-height: 1.6;
+}
+
+
+/* =========================================================
+   ファーストビュー / ツール一覧
+   ========================================================= */
+
+.portal-hero {
+    padding-bottom: 3rem;
+}
+
+
+.tool-card-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4,
+            minmax(0, 1fr));
+
+    gap: 1rem;
+}
+
+
+/* =========================================================
+   ツールカード
+   ========================================================= */
+
+.tool-card {
+    min-width: 0;
+    min-height: 11rem;
+
+    display: flex;
+
+    flex-direction: column;
+
+    position: relative;
+
+    padding: 1.25rem;
+
+    color: #1f2937;
+
+    background-color: #ffffff;
+
+    border:
+        1px solid #e5e7eb;
+
+    border-radius: 0.9rem;
+
+    text-decoration: none;
+
+    box-shadow:
+        0 0.0625rem 0.125rem rgb(0 0 0 / 4%),
+        0 0.25rem 1rem rgb(0 0 0 / 3%);
+
+    transition:
+        border-color 160ms ease,
+        box-shadow 160ms ease,
+        transform 160ms ease;
+}
+
+
+a.tool-card:hover {
+    border-color: #d1d5db;
+
+    box-shadow:
+        0 0.125rem 0.25rem rgb(0 0 0 / 5%),
+        0 0.5rem 1.5rem rgb(0 0 0 / 6%);
+
+    transform:
+        translateY(-0.125rem);
+}
+
+
+a.tool-card:focus-visible {
+    outline:
+        0.125rem solid #9ca3af;
+
+    outline-offset:
+        0.1875rem;
+}
+
+
+/* =========================================================
+   ツールカード アイコン
+   ========================================================= */
+
+.tool-card__icon {
+    width: 2.5rem;
+    height: 2.5rem;
+
+    display: grid;
+
+    place-items: center;
+
+    margin-bottom: 1rem;
+
+    color: #374151;
+
+    background-color: #f3f4f6;
+
+    border-radius: 0.7rem;
+}
+
+
+.tool-card__icon svg {
+    width: 1.5rem;
+    height: 1.5rem;
+
+    display: block;
+
+    fill: currentColor;
+}
+
+
+/* =========================================================
+   ツールカード 本文
+   ========================================================= */
+
+.tool-card__content {
+    min-width: 0;
+}
+
+
+.tool-card__eyebrow {
+    margin:
+        0 0 0.2rem;
+
+    color: #6b7280;
+
+    font-size: 0.72rem;
+    font-weight: 500;
+    line-height: 1.3;
+}
+
+
+.tool-card__title {
+    margin: 0;
+
+    color: #1f2937;
+
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+
+.tool-card__description {
+    margin:
+        0.5rem 0 0;
+
+    color: #6b7280;
+
+    font-size: 0.82rem;
+    line-height: 1.65;
+}
+
+
+/* =========================================================
+   ツールカード 矢印
+   ========================================================= */
+
+.tool-card__arrow {
+    margin-top: auto;
+
+    padding-top: 1rem;
+
+    align-self: flex-end;
+
+    color: #9ca3af;
+
+    font-size: 1.15rem;
+    line-height: 1;
+
+    transition:
+        color 160ms ease,
+        transform 160ms ease;
+}
+
+
+a.tool-card:hover .tool-card__arrow {
+    color: #374151;
+
+    transform:
+        translateX(0.1875rem);
+}
+
+
+/* =========================================================
+   準備中カード
+   ========================================================= */
+
+.tool-card--disabled {
+    color: #9ca3af;
+
+    background-color: #f9fafb;
+
+    border-style: dashed;
+
+    box-shadow: none;
+
+    cursor: default;
+}
+
+
+.tool-card--disabled .tool-card__icon {
+    color: #9ca3af;
+
+    background-color: #f3f4f6;
+}
+
+
+.tool-card--disabled .tool-card__title,
+.tool-card--disabled .tool-card__description {
+    color: #9ca3af;
+}
+
+
+/* =========================================================
+   定型印刷物
+   ========================================================= */
+
+.preset-documents {
+    padding-top: 2.5rem;
+
+    border-top:
+        1px solid #dedfe2;
+}
+
+
+/* =========================================================
+   定型印刷物 管理ボタン
+   ========================================================= */
+
+.preset-settings-button {
+    width: 2rem;
+    height: 2rem;
+
+    flex:
+        0 0 auto;
+
+    display: grid;
+
+    place-items: center;
+
+    margin: 0;
+
+    padding: 0;
+
+    color: #9ca3af;
+
+    background-color: transparent;
+
+    border:
+        1px solid transparent;
+
+    border-radius: 0.55rem;
+
+    cursor: pointer;
+
+    transition:
+        color 160ms ease,
+        background-color 160ms ease,
+        border-color 160ms ease;
+}
+
+
+.preset-settings-button svg {
+    width: 1.15rem;
+    height: 1.15rem;
+
+    display: block;
+
+    fill: currentColor;
+}
+
+
+.preset-settings-button:hover {
+    color: #4b5563;
+
+    background-color: #f3f4f6;
+
+    border-color: #e5e7eb;
+}
+
+
+.preset-settings-button:focus-visible {
+    outline:
+        0.125rem solid #9ca3af;
+
+    outline-offset:
+        0.125rem;
+}
+
+
+/* =========================================================
+   定型印刷物 グリッド
+   ========================================================= */
+
+.preset-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3,
+            minmax(0, 1fr));
+
+    gap: 1rem;
+}
+
+
+/* =========================================================
+   定型印刷物カード
+   ========================================================= */
+
+.preset-card {
+    min-width: 0;
+
+    display: grid;
+
+    grid-template-rows:
+        auto 1fr;
+
+    overflow: hidden;
+
+    margin: 0;
+
+    padding: 0;
+
+    color: #1f2937;
+
+    background-color: #ffffff;
+
+    border:
+        1px solid #e5e7eb;
+
+    border-radius: 0.9rem;
+
+    text-align: left;
+
+    font: inherit;
+
+    box-shadow:
+        0 0.0625rem 0.125rem rgb(0 0 0 / 4%),
+        0 0.25rem 1rem rgb(0 0 0 / 3%);
+
+    cursor: pointer;
+
+    transition:
+        border-color 160ms ease,
+        box-shadow 160ms ease,
+        transform 160ms ease;
+}
+
+
+.preset-card:hover {
+    border-color: #d1d5db;
+
+    box-shadow:
+        0 0.125rem 0.25rem rgb(0 0 0 / 5%),
+        0 0.5rem 1.5rem rgb(0 0 0 / 6%);
+
+    transform:
+        translateY(-0.125rem);
+}
+
+
+.preset-card:focus-visible {
+    outline:
+        0.125rem solid #9ca3af;
+
+    outline-offset:
+        0.1875rem;
+}
+
+
+/* =========================================================
+   定型印刷物 プレビュー
+   ========================================================= */
+
+.preset-card__preview {
+    width: 100%;
+
+    aspect-ratio:
+        16 / 10;
+
+    display: grid;
+
+    place-items: center;
+
+    overflow: hidden;
+
+    background-color: #ffffff;
+
+    border-bottom:
+        1px solid #e5e7eb;
+}
+
+
+.preset-card__preview img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: contain;
+    object-position: center;
+}
+
+
+/* =========================================================
+   プレビュー未設定
+   ========================================================= */
+
+.preset-card__preview--placeholder {
+    color: #9ca3af;
+
+    background-color: #f5f6f8;
+}
+
+
+.preset-card__preview-placeholder {
+    display: grid;
+
+    justify-items: center;
+
+    gap: 0.4rem;
+
+    color: #9ca3af;
+}
+
+
+.preset-card__preview-placeholder svg {
+    width: 2.25rem;
+    height: 2.25rem;
+
+    display: block;
+
+    fill: currentColor;
+}
+
+
+.preset-card__preview-placeholder span {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+}
+
+
+/* =========================================================
+   定型印刷物 本文
+   ========================================================= */
+
+.preset-card__content {
+    min-width: 0;
+
+    padding:
+        1rem 1.1rem 1.15rem;
+}
+
+
+.preset-card__title-row {
+    min-width: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 0.75rem;
+}
+
+
+.preset-card__title {
+    min-width: 0;
+
+    margin: 0;
+
+    overflow: hidden;
+
+    color: #1f2937;
+
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1.4;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+}
+
+
+.preset-card__orientation {
+    flex:
+        0 0 auto;
+
+    padding:
+        0.25rem 0.45rem;
+
+    color: #6b7280;
+
+    background-color: #f3f4f6;
+
+    border-radius: 9999px;
+
+    font-size: 0.7rem;
+    font-weight: 600;
+    line-height: 1;
+}
+
+
+.preset-card__description {
+    display: -webkit-box;
+
+    margin:
+        0.6rem 0 0;
+
+    overflow: hidden;
+
+    color: #6b7280;
+
+    font-size: 0.8rem;
+    line-height: 1.6;
+
+    -webkit-box-orient: vertical;
+
+    -webkit-line-clamp: 2;
+
+    line-clamp: 2;
+}
+
+
+/* =========================================================
+   新規追加カード
+   ========================================================= */
+
+.preset-card--add {
+    min-height: 15rem;
+
+    grid-template-rows: 1fr;
+
+    place-items: center;
+
+    padding: 1.5rem;
+
+    color: #6b7280;
+
+    background-color: #fafafa;
+
+    border-style: dashed;
+
+    box-shadow: none;
+}
+
+
+.preset-card--add:hover {
+    color: #374151;
+
+    background-color: #f8f9fa;
+
+    border-color: #c9ced6;
+
+    box-shadow: none;
+}
+
+
+.preset-card__add-content {
+    display: grid;
+
+    justify-items: center;
+
+    gap: 0.7rem;
+
+    text-align: center;
+}
+
+
+.preset-card__add-icon {
+    width: 2.75rem;
+    height: 2.75rem;
+
+    display: grid;
+
+    place-items: center;
+
+    color: #6b7280;
+
+    background-color: #f1f2f4;
+
+    border-radius: 9999px;
+}
+
+
+.preset-card__add-icon svg {
+    width: 1.35rem;
+    height: 1.35rem;
+
+    display: block;
+
+    fill: currentColor;
+}
+
+
+.preset-card__add-title {
+    margin: 0;
+
+    color: inherit;
+
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+
+.preset-card__add-description {
+    margin: 0;
+
+    color: #9ca3af;
+
+    font-size: 0.75rem;
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   JavaScript無効時
+   ========================================================= */
+
+.preset-noscript {
+    margin: 0;
+
+    padding: 1rem;
+
+    color: #6b7280;
+
+    background-color: #f9fafb;
+
+    border:
+        1px dashed #d1d5db;
+
+    border-radius: 0.75rem;
+
+    font-size: 0.82rem;
+}
+
+
+/* =========================================================
+   定型印刷物 管理モーダル
+   ========================================================= */
+
+.preset-manager-dialog {
+    width:
+        min(calc(100% - 2rem),
+            52rem);
+
+    max-height:
+        min(calc(100dvh - 2rem),
+            48rem);
+
+    margin: auto;
+
+    padding: 0;
+
+    overflow: hidden;
+
+    color: #1f2937;
+
+    background-color: transparent;
+
+    border: 0;
+
+    border-radius: 1rem;
+
+    box-shadow:
+        0 1.5rem 4rem rgb(0 0 0 / 18%);
+}
+
+
+.preset-manager-dialog::backdrop {
+    background-color:
+        rgb(17 24 39 / 32%);
+
+    backdrop-filter:
+        blur(0.125rem);
+}
+
+
+.preset-manager-dialog__surface {
+    max-height:
+        min(calc(100dvh - 2rem),
+            48rem);
+
+    display: flex;
+
+    flex-direction: column;
+
+    overflow: hidden;
+
+    background-color: #ffffff;
+
+    border:
+        1px solid #e1e4e8;
+
+    border-radius: 1rem;
+}
+
+
+/* =========================================================
+   管理モーダル ヘッダー
+   ========================================================= */
+
+.preset-manager-dialog__header {
+    flex:
+        0 0 auto;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    justify-content: space-between;
+
+    gap: 1rem;
+
+    padding:
+        1.2rem 1.25rem;
+
+    border-bottom:
+        1px solid #e5e7eb;
+}
+
+
+.preset-manager-dialog__heading {
+    min-width: 0;
+}
+
+
+.preset-manager-dialog__eyebrow {
+    margin:
+        0 0 0.2rem;
+
+    color: #9ca3af;
+
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+}
+
+
+.preset-manager-dialog__title {
+    margin: 0;
+
+    color: #1f2937;
+
+    font-size: 1.1rem;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+
+.preset-manager-dialog__close {
+    width: 2rem;
+    height: 2rem;
+
+    display: grid;
+
+    place-items: center;
+
+    margin: 0;
+
+    padding: 0;
+
+    color: #6b7280;
+
+    background-color: transparent;
+
+    border:
+        1px solid transparent;
+
+    border-radius: 0.55rem;
+
+    cursor: pointer;
+
+    transition:
+        color 160ms ease,
+        background-color 160ms ease,
+        border-color 160ms ease;
+}
+
+
+.preset-manager-dialog__close:hover {
+    color: #1f2937;
+
+    background-color: #f3f4f6;
+
+    border-color: #e5e7eb;
+}
+
+
+.preset-manager-dialog__close:focus-visible {
+    outline:
+        0.125rem solid #9ca3af;
+
+    outline-offset:
+        0.125rem;
+}
+
+
+.preset-manager-dialog__close svg {
+    width: 1.1rem;
+    height: 1.1rem;
+
+    display: block;
+
+    fill: currentColor;
+}
+
+
+/* =========================================================
+   管理モーダル View
+   ========================================================= */
+
+.preset-manager-view {
+    min-height: 0;
+
+    overflow-y: auto;
+
+    padding: 1.25rem;
+}
+
+
+.preset-manager-view[hidden] {
+    display: none;
+}
+
+
+/* =========================================================
+   管理ツールバー
+   ========================================================= */
+
+.preset-manager-toolbar {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 1rem;
+
+    margin-bottom: 1rem;
+}
+
+
+.preset-manager-toolbar__description {
+    margin: 0;
+
+    color: #6b7280;
+
+    font-size: 0.8rem;
+    line-height: 1.55;
+}
+
+
+/* =========================================================
+   管理一覧
+   ========================================================= */
+
+.preset-manager-list {
+    display: grid;
+
+    gap: 0.65rem;
+}
+
+
+/* =========================================================
+   管理一覧 Item
+   ========================================================= */
+
+.preset-manager-item {
+    min-width: 0;
+
+    display: grid;
+
+    grid-template-columns:
+        5.25rem minmax(0, 1fr) auto;
+
+    align-items: center;
+
+    gap: 0.9rem;
+
+    padding: 0.75rem;
+
+    background-color: #ffffff;
+
+    border:
+        1px solid #e5e7eb;
+
+    border-radius: 0.75rem;
+}
+
+
+.preset-manager-item__preview {
+    width: 5.25rem;
+
+    aspect-ratio:
+        16 / 10;
+
+    display: grid;
+
+    place-items: center;
+
+    overflow: hidden;
+
+    color: #9ca3af;
+
+    background-color: #ffffff;
+
+    border-radius: 0.5rem;
+}
+
+
+.preset-manager-item__preview img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: contain;
+    object-position: center;
+}
+
+
+.preset-manager-item__preview svg {
+    width: 1.5rem;
+    height: 1.5rem;
+
+    fill: currentColor;
+}
+
+
+.preset-manager-item__body {
+    min-width: 0;
+}
+
+
+.preset-manager-item__title-row {
+    min-width: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 0.5rem;
+}
+
+
+.preset-manager-item__title {
+    min-width: 0;
+
+    margin: 0;
+
+    overflow: hidden;
+
+    color: #1f2937;
+
+    font-size: 0.85rem;
+    font-weight: 700;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+}
+
+
+.preset-manager-item__orientation {
+    flex:
+        0 0 auto;
+
+    padding:
+        0.2rem 0.4rem;
+
+    color: #6b7280;
+
+    background-color: #f3f4f6;
+
+    border-radius: 9999px;
+
+    font-size: 0.65rem;
+    font-weight: 600;
+}
+
+
+.preset-manager-item__file {
+    margin:
+        0.25rem 0 0;
+
+    overflow: hidden;
+
+    color: #9ca3af;
+
+    font-size: 0.72rem;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+}
+
+
+.preset-manager-item__actions {
+    display: flex;
+
+    align-items: center;
+
+    gap: 0.35rem;
+}
+
+
+/* =========================================================
+   管理一覧 空状態
+   ========================================================= */
+
+.preset-manager-empty {
+    padding:
+        2rem 1rem;
+
+    color: #6b7280;
+
+    background-color: #fafafa;
+
+    border:
+        1px dashed #d1d5db;
+
+    border-radius: 0.75rem;
+
+    font-size: 0.8rem;
+
+    text-align: center;
+}
+
+
+/* =========================================================
+   ローカル保存 注意書き
+   ========================================================= */
+
+.preset-manager-storage-note {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 0.45rem;
+
+    margin:
+        1rem 0 0;
+
+    padding-top: 0.9rem;
+
+    color: #8a919c;
+
+    border-top:
+        1px solid #eeeeef;
+
+    font-size: 0.72rem;
+    line-height: 1.55;
+}
+
+
+.preset-manager-storage-note svg {
+    width: 1rem;
+    height: 1rem;
+
+    flex:
+        0 0 auto;
+
+    margin-top: 0.1rem;
+
+    fill: currentColor;
+}
+
+
+/* =========================================================
+   Editor Header
+   ========================================================= */
+
+.preset-editor-heading {
+    min-height: 2.2rem;
+
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 0.65rem;
+
+    margin-bottom: 1.25rem;
+}
+
+
+.preset-editor-heading__content {
+    min-width: 0;
+}
+
+
+/**
+ * 管理一覧を経由した場合のみ表示する戻るボタン。
+ *
+ * テキストボタンではなく、
+ * ヘッダー補助操作として小さく表示する。
+ */
+.preset-editor-heading__back {
+    width: 2rem;
+    height: 2rem;
+
+    flex:
+        0 0 auto;
+
+    display: grid;
+
+    place-items: center;
+
+    margin: -0.15rem 0 0;
+
+    padding: 0;
+
+    color: #6b7280;
+
+    background-color: transparent;
+
+    border:
+        1px solid transparent;
+
+    border-radius: 0.55rem;
+
+    cursor: pointer;
+
+    transition:
+        color 160ms ease,
+        background-color 160ms ease,
+        border-color 160ms ease;
+}
+
+
+.preset-editor-heading__back:hover {
+    color: #1f2937;
+
+    background-color: #f3f4f6;
+
+    border-color: #e5e7eb;
+}
+
+
+.preset-editor-heading__back:focus-visible {
+    outline:
+        0.125rem solid #9ca3af;
+
+    outline-offset:
+        0.125rem;
+}
+
+
+.preset-editor-heading__back[hidden] {
+    display: none;
+}
+
+
+.preset-editor-heading__back svg {
+    width: 1.2rem;
+    height: 1.2rem;
+
+    display: block;
+
+    fill: currentColor;
+}
+
+
+.preset-editor-heading__eyebrow {
+    margin:
+        0 0 0.15rem;
+
+    color: #9ca3af;
+
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+}
+
+
+.preset-editor-heading__title {
+    margin: 0;
+
+    color: #1f2937;
+
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+
+/* =========================================================
+   Editor
+   ========================================================= */
+
+.preset-editor {
+    display: grid;
+
+    gap: 1rem;
+}
+
+
+/* =========================================================
+   Editor Field
+   ========================================================= */
+
+.preset-editor__field {
+    min-width: 0;
+
+    display: grid;
+
+    gap: 0.4rem;
+}
+
+
+/**
+ * fieldsetのブラウザ標準スタイルを解除する。
+ */
+fieldset.preset-editor__field {
+    margin: 0;
+
+    padding: 0;
+
+    border: 0;
+
+    min-inline-size: 0;
+}
+
+
+.preset-editor__label {
+    padding: 0;
+
+    color: #374151;
+
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+
+.preset-editor__required {
+    color: #9f1239;
+}
+
+
+.preset-editor__optional {
+    margin-left: 0.35rem;
+
+    color: #9ca3af;
+
+    font-size: 0.68rem;
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   Editor Inputs
+   ========================================================= */
+
+.preset-editor__input,
+.preset-editor__textarea {
+    width: 100%;
+
+    margin: 0;
+
+    padding:
+        0.7rem 0.75rem;
+
+    color: #1f2937;
+
+    background-color: #ffffff;
+
+    border:
+        1px solid #d9dde3;
+
+    border-radius: 0.6rem;
+
+    font: inherit;
+
+    font-size: 0.82rem;
+
+    outline: none;
+
+    transition:
+        border-color 160ms ease,
+        box-shadow 160ms ease;
+}
+
+
+.preset-editor__textarea {
+    min-height: 5.5rem;
+
+    resize: vertical;
+
+    line-height: 1.55;
+}
+
+
+.preset-editor__input:focus,
+.preset-editor__textarea:focus {
+    border-color: #9ca3af;
+
+    box-shadow:
+        0 0 0 0.1875rem rgb(156 163 175 / 15%);
+}
+
+
+/* =========================================================
+   Editor 用紙方向
+   ========================================================= */
+
+.preset-editor__orientation {
+    gap: 0.55rem;
+}
+
+
+.preset-editor__radio-group {
+    display: flex;
+
+    align-items: stretch;
+
+    gap: 0.5rem;
+}
+
+
+/**
+ * A4縦 / A4横の2択なので、
+ * selectではなく直接選択可能なradioとして表示する。
+ */
+.preset-editor__radio {
+    min-width: 7rem;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 0.5rem;
+
+    padding:
+        0.65rem 0.8rem;
+
+    color: #4b5563;
+
+    background-color: #ffffff;
+
+    border:
+        1px solid #d9dde3;
+
+    border-radius: 0.6rem;
+
+    font-size: 0.8rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    user-select: none;
+
+    transition:
+        color 160ms ease,
+        background-color 160ms ease,
+        border-color 160ms ease,
+        box-shadow 160ms ease;
+}
+
+
+.preset-editor__radio:hover {
+    border-color: #bfc5cd;
+}
+
+
+.preset-editor__radio:has(.preset-editor__radio-input:checked) {
+    color: #1f2937;
+
+    background-color: #f4f5f7;
+
+    border-color: #9ca3af;
+
+    box-shadow:
+        inset 0 0 0 1px rgb(156 163 175 / 15%);
+}
+
+
+.preset-editor__radio:has(.preset-editor__radio-input:focus-visible) {
+    outline:
+        0.125rem solid #9ca3af;
+
+    outline-offset:
+        0.125rem;
+}
+
+
+.preset-editor__radio-input {
+    width: 0.95rem;
+    height: 0.95rem;
+
+    flex:
+        0 0 auto;
+
+    margin: 0;
+
+    accent-color: #374151;
+}
+
+
+.preset-editor__radio-label {
+    line-height: 1.2;
+}
+
+
+/* =========================================================
+   Editor File
+   ========================================================= */
+
+.preset-editor__file-input {
+    width: 100%;
+
+    color: #4b5563;
+
+    font-size: 0.78rem;
+}
+
+
+.preset-editor__file-input::file-selector-button {
+    margin-right: 0.65rem;
+
+    padding:
+        0.55rem 0.75rem;
+
+    color: #374151;
+
+    background-color: #f5f6f8;
+
+    border:
+        1px solid #d9dde3;
+
+    border-radius: 0.5rem;
+
+    font: inherit;
+
+    font-size: 0.75rem;
+
+    cursor: pointer;
+}
+
+
+.preset-editor__file-current {
+    margin: 0;
+
+    overflow: hidden;
+
+    color: #9ca3af;
+
+    font-size: 0.7rem;
+    line-height: 1.5;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   Editor Error
+   ========================================================= */
+
+.preset-editor__error {
+    margin: 0;
+
+    padding:
+        0.7rem 0.8rem;
+
+    color: #991b1b;
+
+    background-color: #fff7f7;
+
+    border:
+        1px solid #fecaca;
+
+    border-radius: 0.55rem;
+
+    font-size: 0.75rem;
+    line-height: 1.5;
+}
+
+
+.preset-editor__error[hidden] {
+    display: none;
+}
+
+
+/* =========================================================
+   Editor Actions
+   ========================================================= */
+
+.preset-editor__actions {
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 0.5rem;
+
+    padding-top: 0.25rem;
+}
+
+
+/* =========================================================
+   レスポンシブ
+   ========================================================= */
+
+@media (max-width: 64rem) {
+
+    .tool-card-grid {
+        grid-template-columns:
+            repeat(2,
+                minmax(0, 1fr));
+    }
+
+
+    .preset-grid {
+        grid-template-columns:
+            repeat(2,
+                minmax(0, 1fr));
+    }
+
+}
+
+
+@media (max-width: 42rem) {
+
+    .portal-main {
+        width:
+            min(100% - 1.5rem,
+                80rem);
+
+        padding-block:
+            1.75rem 3rem;
+    }
+
+
+    .portal-hero {
+        padding-bottom: 2.25rem;
+    }
+
+
+    .tool-card-grid,
+    .preset-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .tool-card {
+        min-height: 0;
+    }
+
+
+    .preset-documents {
+        padding-top: 2rem;
+    }
+
+
+    .preset-card--add {
+        min-height: 10rem;
+    }
+
+
+    .preset-manager-dialog {
+        width:
+            calc(100% - 1rem);
+
+        max-height:
+            calc(100dvh - 1rem);
+    }
+
+
+    .preset-manager-dialog__surface {
+        max-height:
+            calc(100dvh - 1rem);
+    }
+
+
+    .preset-manager-dialog__header {
+        padding: 1rem;
+    }
+
+
+    .preset-manager-view {
+        padding: 1rem;
+    }
+
+
+    .preset-manager-toolbar {
+        align-items: stretch;
+
+        flex-direction: column;
+    }
+
+
+    .preset-manager-toolbar .glass-button {
+        width: 100%;
+    }
+
+
+    .preset-manager-item {
+        grid-template-columns:
+            4.5rem minmax(0,
+                1fr);
+    }
+
+
+    .preset-manager-item__preview {
+        width: 4.5rem;
+    }
+
+
+    .preset-manager-item__actions {
+        grid-column:
+            1 / -1;
+
+        justify-content: flex-end;
+
+        padding-top: 0.2rem;
+    }
+
+
+    .preset-editor__radio-group {
+        display: grid;
+
+        grid-template-columns:
+            repeat(2,
+                minmax(0, 1fr));
+    }
+
+
+    .preset-editor__radio {
+        min-width: 0;
+    }
+
+
+    .preset-editor__actions {
+        display: grid;
+
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+}
+
+
+/* =========================================================
+   動きを減らす設定
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .tool-card,
+    .tool-card__arrow,
+    .preset-card,
+    .preset-settings-button,
+    .preset-manager-dialog__close,
+    .preset-editor-heading__back,
+    .preset-editor__input,
+    .preset-editor__textarea,
+    .preset-editor__radio {
+        transition: none;
+    }
+
+}

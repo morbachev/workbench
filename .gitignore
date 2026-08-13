@@ -1,0 +1,26 @@
+# macOS
+.DS_Store
+__MACOSX/
+
+# dependencies
+node_modules/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# development source maps
+*.js.map
+
+# local source documents
+source-pdf/
+
+# user / work data
+*.csv
+*.xlsx
+*.xls
+gosplan13_*.json
+
+# environment / secrets
+.env
+.env.*
+!.env.example

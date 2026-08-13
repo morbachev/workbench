@@ -1,0 +1,244 @@
+/**
+ * iOS風トグルスイッチ
+ */
+
+.ribbon__option {
+    display: inline-flex;
+    align-items: center;
+}
+
+/*
+ * checkbox本体は画面から隠す。
+ * display:noneにはせず、キーボード操作と読み上げ機能を残す。
+ */
+.ribbon__option-input {
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+
+    margin: -1px;
+    padding: 0;
+
+    overflow: hidden;
+
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+
+    white-space: nowrap;
+
+    border: 0;
+}
+
+/*
+ * ラベル全体をクリック可能にする。
+ *
+ * ::before がスイッチの背景、
+ * ::after が丸いつまみを担当する。
+ */
+.ribbon__option-label {
+    position: relative;
+
+    min-height: 2.5rem;
+    padding:
+        0.5rem 0.85rem 0.5rem 3.6rem;
+
+    display: inline-flex;
+    align-items: center;
+
+    box-sizing: border-box;
+
+    border: 0.0625rem solid rgba(0, 0, 0, 0.08);
+    border-radius: 9999px;
+
+    color: #202124;
+    background:
+        rgba(255, 255, 255, 0.72);
+
+    box-shadow:
+        0 0.125rem 0.25rem rgba(0, 0, 0, 0.08),
+        inset 0 0.0625rem 0 rgba(255, 255, 255, 0.85);
+
+    backdrop-filter: blur(0.75rem);
+    -webkit-backdrop-filter: blur(0.75rem);
+
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1;
+
+    user-select: none;
+    cursor: pointer;
+
+    transition:
+        color 180ms ease,
+        background-color 180ms ease,
+        border-color 180ms ease,
+        box-shadow 180ms ease,
+        transform 120ms ease;
+}
+
+/*
+ * スイッチの土台。
+ */
+.ribbon__option-label::before {
+    content: "";
+
+    position: absolute;
+    left: 0.7rem;
+    top: 50%;
+
+    width: 2.45rem;
+    height: 1.45rem;
+
+    border-radius: 9999px;
+
+    background-color: #c7cbd1;
+
+    box-shadow:
+        inset 0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.16);
+
+    transform: translateY(-50%);
+
+    transition:
+        background-color 200ms ease,
+        box-shadow 200ms ease;
+}
+
+/*
+ * スイッチの丸いつまみ。
+ */
+.ribbon__option-label::after {
+    content: "";
+
+    position: absolute;
+    left: 0.82rem;
+    top: 50%;
+
+    width: 1.2rem;
+    height: 1.2rem;
+
+    border-radius: 50%;
+
+    background-color: #ffffff;
+
+    box-shadow:
+        0 0.125rem 0.3rem rgba(0, 0, 0, 0.28),
+        0 0.0625rem 0.1rem rgba(0, 0, 0, 0.16);
+
+    transform:
+        translateY(-50%) translateX(0);
+
+    transition:
+        transform 220ms cubic-bezier(0.2, 0.8, 0.2, 1),
+        box-shadow 180ms ease;
+}
+
+
+/* =========================================================
+   ホバー
+   ========================================================= */
+
+.ribbon__option-label:hover {
+    background:
+        rgba(255, 255, 255, 0.9);
+
+    border-color:
+        rgba(0, 0, 0, 0.12);
+
+    box-shadow:
+        0 0.35rem 0.9rem rgba(0, 0, 0, 0.12),
+        inset 0 0.0625rem 0 rgba(255, 255, 255, 0.9);
+
+    transform: translateY(-0.0625rem);
+}
+
+.ribbon__option-label:hover::after {
+    box-shadow:
+        0 0.18rem 0.4rem rgba(0, 0, 0, 0.32),
+        0 0.0625rem 0.1rem rgba(0, 0, 0, 0.16);
+}
+
+
+/* =========================================================
+   マウス押下
+   ========================================================= */
+
+.ribbon__option-label:active {
+    transform:
+        translateY(0) scale(0.98);
+
+    box-shadow:
+        0 0.125rem 0.3rem rgba(0, 0, 0, 0.1),
+        inset 0 0.0625rem 0.125rem rgba(0, 0, 0, 0.08);
+}
+
+/*
+ * 押している間だけ、つまみを少し横長にする。
+ * iOSスイッチの弾力感に近い動きになる。
+ */
+.ribbon__option-label:active::after {
+    width: 1.35rem;
+}
+
+
+/* =========================================================
+   ON状態
+   ========================================================= */
+
+.ribbon__option-input:checked+.ribbon__option-label::before {
+    background-color: #34c759;
+
+    box-shadow:
+        inset 0 0.0625rem 0.1875rem rgba(0, 0, 0, 0.1),
+        0 0 0.45rem rgba(52, 199, 89, 0.2);
+}
+
+.ribbon__option-input:checked+.ribbon__option-label::after {
+    transform:
+        translateY(-50%) translateX(1rem);
+}
+
+/*
+ * ON状態で押している間は、
+ * 横長になった分だけ位置を少し調整する。
+ */
+.ribbon__option-input:checked+.ribbon__option-label:active::after {
+    transform:
+        translateY(-50%) translateX(0.85rem);
+}
+
+
+/* =========================================================
+   キーボードフォーカス
+   ========================================================= */
+
+.ribbon__option-input:focus-visible+.ribbon__option-label {
+    outline: 0.1875rem solid rgba(0, 122, 255, 0.35);
+    outline-offset: 0.125rem;
+}
+
+
+/* =========================================================
+   無効状態
+   ========================================================= */
+
+.ribbon__option-input:disabled+.ribbon__option-label {
+    opacity: 0.5;
+    cursor: not-allowed;
+
+    transform: none;
+}
+
+
+/* =========================================================
+   動きを減らす設定への対応
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .ribbon__option-label,
+    .ribbon__option-label::before,
+    .ribbon__option-label::after {
+        transition: none;
+    }
+}

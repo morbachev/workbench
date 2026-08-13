@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>
+        WORKBENCH | Tools
+    </title>
+
+    <meta name="description" content="GOSPLAN13、INVENTORY BATCH、RED INDEX、定型印刷物をまとめた軽量な社内向けWebツールです。">
+
+    <meta name="theme-color" content="#ffffff">
+
+
+    <!-- =====================================================
+         Styles
+         ===================================================== -->
+
+    <link rel="stylesheet" href="./css/ress.css">
+
+    <link rel="stylesheet" href="./css/styles.css">
+
+    <link rel="stylesheet" href="./css/header.css">
+
+    <link rel="stylesheet" href="./css/button.css">
+
+    <link rel="stylesheet" href="./css/home.css">
+
+
+    <!-- =====================================================
+         Scripts
+         ===================================================== -->
+
+    <script src="./dist/site-header.js" type="module"></script>
+
+    <script src="./dist/main.js" type="module"></script>
+</head>
+
+
+<body>
+
+    <!-- =====================================================
+         共通ヘッダー
+         ===================================================== -->
+
+    <div class="top-panel">
+
+        <div class="top-panel__content">
+
+            <site-header></site-header>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         メイン
+         ===================================================== -->
+
+    <main class="portal-main">
+
+
+        <!-- =================================================
+             ツール一覧
+             ================================================= -->
+
+        <section class="portal-hero" aria-labelledby="portal-tools-title">
+
+            <div class="portal-section-heading">
+
+                <p class="portal-section-heading__eyebrow">
+                    TOOLS
+                </p>
+
+                <h2 id="portal-tools-title" class="portal-section-heading__title">
+                    ツール
+                </h2>
+
+                <p class="portal-section-heading__description">
+                    使用する機能を選択してください。
+                </p>
+
+            </div>
+
+
+            <div class="tool-card-grid">
+
+
+                <!-- =========================================
+                     GOSPLAN13
+                     ========================================= -->
+
+                <a class="tool-card" href="./gosplan13/">
+
+                    <div class="tool-card__icon" aria-hidden="true">
+
+                        <svg viewBox="0 -960 960 960" aria-hidden="true">
+                            <path
+                                d="M120-120v-720h80v720h-80Zm120 0v-720h40v720h-40Zm80 0v-720h80v720h-80Zm120 0v-720h40v720h-40Zm80 0v-720h120v720H520Zm160 0v-720h40v720h-40Zm80 0v-720h80v720h-80Z" />
+                        </svg>
+
+                    </div>
+
+
+                    <div class="tool-card__content">
+
+                        <p class="tool-card__eyebrow">
+                            バーコード生成
+                        </p>
+
+                        <h3 class="tool-card__title">
+                            GOSPLAN13
+                        </h3>
+
+                        <p class="tool-card__description">
+                            商品名・JAN・画像から印刷用バーコードラベルを作成します。
+                        </p>
+
+                    </div>
+
+
+                    <span class="tool-card__arrow" aria-hidden="true">
+                        →
+                    </span>
+
+                </a>
+
+
+                <!-- =========================================
+                     INVENTORY BATCH
+                     ========================================= -->
+
+                <a class="tool-card" href="./inventory_batch/">
+
+                    <div class="tool-card__icon" aria-hidden="true">
+
+                        <svg viewBox="0 -960 960 960" aria-hidden="true">
+                            <path
+                                d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm80-80h400v-80H280v80Zm0-160h400v-80H280v80Zm0-160h240v-80H280v80Z" />
+                        </svg>
+
+                    </div>
+
+
+                    <div class="tool-card__content">
+
+                        <p class="tool-card__eyebrow">
+                            棚卸一括出力
+                        </p>
+
+                        <h3 class="tool-card__title">
+                            INVENTORY BATCH
+                        </h3>
+
+                        <p class="tool-card__description">
+                            CSVから棚卸訂正用のJANバーコード一覧を一括作成します。
+                        </p>
+
+                    </div>
+
+
+                    <span class="tool-card__arrow" aria-hidden="true">
+                        →
+                    </span>
+
+                </a>
+
+
+                <!-- =========================================
+                     RED INDEX
+                     ========================================= -->
+
+                <a class="tool-card" href="./red_index/">
+
+                    <div class="tool-card__icon" aria-hidden="true">
+
+                        <svg viewBox="0 -960 960 960" aria-hidden="true">
+                            <path
+                                d="m480-120-280-80v-560l280-80 280 80v560l-280 80Zm0-83 200-57v-440l-200-57-200 57v440l200 57Zm-40-117h80v-200h-80v200Zm0-280h80v-80h-80v80Z" />
+                        </svg>
+
+                    </div>
+
+
+                    <div class="tool-card__content">
+
+                        <p class="tool-card__eyebrow">
+                            割引不可商品リスト
+                        </p>
+
+                        <h3 class="tool-card__title">
+                            RED INDEX
+                        </h3>
+
+                        <p class="tool-card__description">
+                            社割・割引対象外の商品を確認・管理します。
+                        </p>
+
+                    </div>
+
+
+                    <span class="tool-card__arrow" aria-hidden="true">
+                        →
+                    </span>
+
+                </a>
+
+
+                <!-- =========================================
+                     将来追加用
+                     ========================================= -->
+
+                <article class="tool-card tool-card--disabled" aria-disabled="true">
+
+                    <div class="tool-card__icon" aria-hidden="true">
+
+                        <svg viewBox="0 -960 960 960" aria-hidden="true">
+                            <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+                        </svg>
+
+                    </div>
+
+
+                    <div class="tool-card__content">
+
+                        <h3 class="tool-card__title">
+                            COMING SOON
+                        </h3>
+
+                        <p class="tool-card__description">
+                            今後追加するツール用のスペースです。
+                        </p>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             定型印刷物
+             ================================================= -->
+
+        <section class="preset-documents" aria-labelledby="preset-documents-title">
+
+            <div class="portal-section-heading">
+
+                <p class="portal-section-heading__eyebrow">
+                    PRESET DOCUMENTS
+                </p>
+
+
+                <div class="portal-section-heading__title-row">
+
+                    <h2 id="preset-documents-title" class="portal-section-heading__title">
+                        定型印刷物
+                    </h2>
+
+
+                    <button id="preset-settings-button" type="button" class="preset-settings-button"
+                        aria-label="定型印刷物を管理" aria-haspopup="dialog" aria-controls="preset-manager-dialog"
+                        title="定型印刷物を管理">
+
+                        <svg viewBox="0 -960 960 960" aria-hidden="true">
+                            <path
+                                d="m370-80-16-126q-14-5-26.5-12T303-235L186-186 76-374l101-76q-1-7-1-15v-30q0-8 1-15L76-586l110-188 117 49q12-8 24.5-15t26.5-12l16-128h220l16 128q14 5 27 12t25 15l116-49 110 188-101 76q1 7 1 15v30q0 8-2 15l102 76-110 188-116-49q-12 8-25 15t-27 12L590-80H370Zm70-80h79l14-106q31-8 57.5-23.5T639-327l99 41 39-68-86-65q5-14 7-29.5t2-31.5q0-16-2-31t-7-30l86-65-39-68-99 42q-22-23-48.5-38.5T533-694l-13-106h-79l-14 106q-31 8-57.5 23.5T321-633l-99-41-39 68 86 64q-5 15-7 30t-2 32q0 16 2 31t7 30l-86 65 39 68 99-42q22 23 48.5 38.5T427-266l13 106Zm42-180q58 0 99-41t41-99q0-58-41-99t-99-41q-59 0-100 41t-41 99q0 58 41 99t100 41Zm-2-140Z" />
+                        </svg>
+
+                    </button>
+
+                </div>
+
+
+                <p class="portal-section-heading__description">
+                    このPCに保存した定型印刷物から必要なものを選択します。
+                </p>
+
+            </div>
+
+
+            <div id="preset-grid" class="preset-grid" aria-live="polite" aria-busy="true"></div>
+
+
+            <noscript>
+
+                <p class="preset-noscript">
+                    定型印刷物を表示するにはJavaScriptを有効にしてください。
+                </p>
+
+            </noscript>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         定型印刷物 管理モーダル
+         ===================================================== -->
+
+    <dialog id="preset-manager-dialog" class="preset-manager-dialog" aria-labelledby="preset-manager-title">
+
+        <div class="preset-manager-dialog__surface">
+
+
+            <!-- =============================================
+                 モーダルヘッダー
+                 ============================================= -->
+
+            <header class="preset-manager-dialog__header">
+
+                <div class="preset-manager-dialog__heading">
+
+                    <p class="preset-manager-dialog__eyebrow">
+                        PRESET DOCUMENTS
+                    </p>
+
+                    <h2 id="preset-manager-title" class="preset-manager-dialog__title">
+                        定型印刷物を管理
+                    </h2>
+
+                </div>
+
+
+                <form method="dialog">
+
+                    <button type="submit" class="preset-manager-dialog__close" aria-label="閉じる">
+
+                        <svg viewBox="0 -960 960 960" aria-hidden="true">
+                            <path
+                                d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+                        </svg>
+
+                    </button>
+
+                </form>
+
+            </header>
+
+
+            <!-- =============================================
+                 登録済み一覧
+                 ============================================= -->
+
+            <section id="preset-manager-list-view" class="preset-manager-view">
+
+                <div class="preset-manager-toolbar">
+
+                    <p class="preset-manager-toolbar__description">
+                        このブラウザに保存されている定型印刷物を確認・変更できます。
+                    </p>
+
+
+                    <button id="preset-manager-add-button" type="button" class="glass-button">
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="glass-button__icon" viewBox="0 -960 960 960"
+                            aria-hidden="true">
+                            <path d="M440-440H200v-80h240v-240h80v240h240v80H520v240h-80v-240Z" />
+                        </svg>
+
+                        新規追加
+
+                    </button>
+
+                </div>
+
+
+                <div id="preset-manager-list" class="preset-manager-list" aria-live="polite"></div>
+
+
+                <p class="preset-manager-storage-note">
+
+                    <svg viewBox="0 -960 960 960" aria-hidden="true">
+                        <path
+                            d="M440-280h80v-240h-80v240Zm40-320q17 0 28.5-11.5T520-640q0-17-11.5-28.5T480-680q-17 0-28.5 11.5T440-640q0 17 11.5 28.5T480-600Zm0 520q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z" />
+                    </svg>
+
+                    定型印刷物はこのブラウザ内に保存されます。
+                    ブラウザのサイトデータを削除すると失われる場合があります。
+
+                </p>
+
+            </section>
+
+
+            <!-- =============================================
+                 新規追加 / 編集
+                 ============================================= -->
+
+            <section id="preset-editor-view" class="preset-manager-view" hidden>
+
+                <div class="preset-editor-heading">
+
+
+                    <!--
+                        管理一覧を経由した場合だけ表示する。
+                        メイン画面の「新規追加」から
+                        直接開いた場合は非表示。
+                    -->
+
+                    <button id="preset-editor-back-button" type="button" class="preset-editor-heading__back"
+                        aria-label="管理一覧に戻る" title="管理一覧に戻る" hidden>
+
+                        <svg viewBox="0 -960 960 960" aria-hidden="true">
+                            <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z" />
+                        </svg>
+
+                    </button>
+
+
+                    <div class="preset-editor-heading__content">
+
+                        <p class="preset-editor-heading__eyebrow">
+                            DOCUMENT
+                        </p>
+
+                        <h3 id="preset-editor-title" class="preset-editor-heading__title">
+                            定型印刷物を追加
+                        </h3>
+
+                    </div>
+
+                </div>
+
+
+                <form id="preset-editor-form" class="preset-editor" novalidate>
+
+                    <input id="preset-editor-id" type="hidden">
+
+
+                    <!-- =====================================
+                         タイトル
+                         ===================================== -->
+
+                    <label class="preset-editor__field">
+
+                        <span class="preset-editor__label">
+                            タイトル
+
+                            <span class="preset-editor__required" aria-hidden="true">
+                                *
+                            </span>
+                        </span>
+
+                        <input id="preset-title-input" class="preset-editor__input" type="text" maxlength="60"
+                            autocomplete="off" required>
+
+                    </label>
+
+
+                    <!-- =====================================
+                         説明
+                         ===================================== -->
+
+                    <label class="preset-editor__field">
+
+                        <span class="preset-editor__label">
+                            説明
+                        </span>
+
+                        <textarea id="preset-description-input" class="preset-editor__textarea" maxlength="200"
+                            rows="3"></textarea>
+
+                    </label>
+
+
+                    <!-- =====================================
+                         用紙方向
+                         ===================================== -->
+
+                    <fieldset class="preset-editor__field preset-editor__orientation">
+
+                        <legend class="preset-editor__label">
+
+                            用紙方向
+
+                            <span class="preset-editor__required" aria-hidden="true">
+                                *
+                            </span>
+
+                        </legend>
+
+
+                        <div class="preset-editor__radio-group">
+
+
+                            <!-- =============================
+                                 A4縦
+                                 ============================= -->
+
+                            <label class="preset-editor__radio">
+
+                                <input id="preset-orientation-portrait" class="preset-editor__radio-input" type="radio"
+                                    name="preset-orientation" value="portrait" checked>
+
+                                <span class="preset-editor__radio-label">
+                                    A4縦
+                                </span>
+
+                            </label>
+
+
+                            <!-- =============================
+                                 A4横
+                                 ============================= -->
+
+                            <label class="preset-editor__radio">
+
+                                <input id="preset-orientation-landscape" class="preset-editor__radio-input" type="radio"
+                                    name="preset-orientation" value="landscape">
+
+                                <span class="preset-editor__radio-label">
+                                    A4横
+                                </span>
+
+                            </label>
+
+                        </div>
+
+                    </fieldset>
+
+
+                    <!-- =====================================
+                         PDF
+                         ===================================== -->
+
+                    <div class="preset-editor__field">
+
+                        <label class="preset-editor__label" for="preset-pdf-input">
+                            PDF
+
+                            <span class="preset-editor__required" aria-hidden="true">
+                                *
+                            </span>
+                        </label>
+
+
+                        <input id="preset-pdf-input" class="preset-editor__file-input" type="file"
+                            accept=".pdf,application/pdf">
+
+
+                        <p id="preset-current-pdf" class="preset-editor__file-current" aria-live="polite">
+                            PDFが選択されていません。
+                        </p>
+
+                    </div>
+
+
+                    <!-- =====================================
+                         プレビュー画像
+                         ===================================== -->
+
+                    <div class="preset-editor__field">
+
+                        <label class="preset-editor__label" for="preset-preview-input">
+                            プレビュー画像
+
+                            <span class="preset-editor__optional">
+                                任意
+                            </span>
+                        </label>
+
+
+                        <input id="preset-preview-input" class="preset-editor__file-input" type="file"
+                            accept="image/png,image/jpeg,image/webp">
+
+
+                        <p id="preset-current-preview" class="preset-editor__file-current" aria-live="polite">
+                            指定しない場合はPDFアイコンを表示します。
+                        </p>
+
+                    </div>
+
+
+                    <!-- =====================================
+                         エラー
+                         ===================================== -->
+
+                    <p id="preset-editor-error" class="preset-editor__error" role="alert" hidden></p>
+
+
+                    <!-- =====================================
+                         操作
+                         ===================================== -->
+
+                    <div class="preset-editor__actions">
+
+                        <button id="preset-editor-cancel-button" type="button" class="glass-button">
+                            キャンセル
+                        </button>
+
+
+                        <button id="preset-editor-save-button" type="submit" class="glass-button glass-button--primary">
+                            保存
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+        </div>
+
+    </dialog>
+
+
+    <!-- =====================================================
+         フッター
+         ===================================================== -->
+
+    <footer class="footer">
+
+        <small>
+            Copyright © 2026 WORKBENCH. All Rights Reserved.
+        </small>
+
+    </footer>
+
+</body>
+
+</html>

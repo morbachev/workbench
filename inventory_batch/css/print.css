@@ -1,0 +1,712 @@
+/**
+ * print.css
+ *
+ * INVENTORY BATCH
+ * 印刷専用スタイル。
+ *
+ * A4縦固定。
+ *
+ * 1ページ:
+ * 56件
+ *
+ * 左:
+ * 28件
+ *
+ * 右:
+ * 28件
+ */
+
+
+/* =========================================================
+   Page
+   ========================================================= */
+
+@page {
+    size:
+        A4 portrait;
+
+    margin:
+        0;
+}
+
+
+/* =========================================================
+   Document
+   ========================================================= */
+
+html,
+body {
+    width:
+        210mm;
+
+    margin:
+        0 !important;
+
+    padding:
+        0 !important;
+
+    background:
+        #ffffff !important;
+}
+
+
+body {
+    display:
+        block !important;
+
+    -webkit-print-color-adjust:
+        exact;
+
+    print-color-adjust:
+        exact;
+}
+
+
+/* =========================================================
+   通常UI 非表示
+   ========================================================= */
+
+.top-panel,
+site-header,
+.footer {
+    display:
+        none !important;
+}
+
+
+.inventory-main> :not(.inventory-preview-section) {
+    display:
+        none !important;
+}
+
+
+.inventory-preview-section>.inventory-section__heading {
+    display:
+        none !important;
+}
+
+
+/* =========================================================
+   Main
+   ========================================================= */
+
+.inventory-main {
+    width:
+        auto !important;
+
+    max-width:
+        none !important;
+
+    display:
+        block !important;
+
+    margin:
+        0 !important;
+
+    padding:
+        0 !important;
+}
+
+
+/* =========================================================
+   Preview
+   ========================================================= */
+
+.inventory-preview-section {
+    display:
+        block !important;
+
+    width:
+        auto !important;
+
+    margin:
+        0 !important;
+
+    padding:
+        0 !important;
+
+    border:
+        0 !important;
+}
+
+
+.inventory-preview {
+    display:
+        block !important;
+
+    width:
+        auto !important;
+
+    margin:
+        0 !important;
+
+    padding:
+        0 !important;
+}
+
+
+.inventory-preview__empty {
+    display:
+        none !important;
+}
+
+
+/* =========================================================
+   A4 Page
+   ========================================================= */
+
+.inventory-page {
+    position:
+        relative !important;
+
+    width:
+        210mm !important;
+
+    min-width:
+        210mm !important;
+
+    max-width:
+        210mm !important;
+
+    height:
+        297mm !important;
+
+    min-height:
+        297mm !important;
+
+    max-height:
+        297mm !important;
+
+    aspect-ratio:
+        auto !important;
+
+    box-sizing:
+        border-box !important;
+
+    display:
+        grid !important;
+
+    grid-template-columns:
+        repeat(2,
+            minmax(0,
+                1fr)) !important;
+
+    grid-template-rows:
+        repeat(28,
+            minmax(0,
+                1fr)) !important;
+
+    grid-auto-flow:
+        column !important;
+
+    column-gap:
+        0 !important;
+
+    row-gap:
+        0 !important;
+
+    margin:
+        0 !important;
+
+    padding:
+        10mm !important;
+
+    overflow:
+        hidden !important;
+
+    background:
+        #ffffff !important;
+
+    border:
+        0 !important;
+
+    box-shadow:
+        none !important;
+
+    break-after:
+        page;
+
+    page-break-after:
+        always;
+
+    break-inside:
+        avoid;
+
+    page-break-inside:
+        avoid;
+}
+
+
+.inventory-page:last-child {
+    break-after:
+        auto;
+
+    page-break-after:
+        auto;
+}
+
+
+/* =========================================================
+   発行情報
+   ========================================================= */
+
+/**
+ * A4左上から
+ *
+ * 上:
+ * 6mm
+ *
+ * 左:
+ * 6mm
+ *
+ * へabsolute配置する。
+ *
+ * 既存の56商品グリッドには
+ * 一切参加しない。
+ */
+.inventory-page__issued {
+    position:
+        absolute !important;
+
+    z-index:
+        3 !important;
+
+    top:
+        6mm !important;
+
+    left:
+        6mm !important;
+
+    margin:
+        0 !important;
+
+    padding:
+        0 !important;
+
+    color:
+        #999999 !important;
+
+    font-size:
+        5.5pt !important;
+
+    font-weight:
+        400 !important;
+
+    line-height:
+        1 !important;
+
+    letter-spacing:
+        0.01em !important;
+
+    white-space:
+        nowrap !important;
+
+    pointer-events:
+        none !important;
+}
+
+
+.inventory-page__issued:empty {
+    display:
+        none !important;
+}
+
+
+/* =========================================================
+   A4中央線
+   ========================================================= */
+
+.inventory-page::before {
+    content:
+        "";
+
+    position:
+        absolute;
+
+    z-index:
+        2;
+
+    top:
+        10mm;
+
+    bottom:
+        10mm;
+
+    left:
+        50%;
+
+    width:
+        0;
+
+    border-left:
+        1px solid #999999;
+
+    pointer-events:
+        none;
+}
+
+
+/* =========================================================
+   商品1行
+   ========================================================= */
+
+.inventory-row {
+    min-width:
+        0 !important;
+
+    min-height:
+        0 !important;
+
+    box-sizing:
+        border-box !important;
+
+    display:
+        grid !important;
+
+    align-items:
+        center !important;
+
+    column-gap:
+        1mm !important;
+
+    row-gap:
+        0 !important;
+
+    margin:
+        0 !important;
+
+    padding:
+        0 !important;
+
+    overflow:
+        hidden !important;
+
+    border-bottom:
+        1px solid #d8d8d8 !important;
+
+    break-inside:
+        avoid !important;
+
+    page-break-inside:
+        avoid !important;
+}
+
+
+/* =========================================================
+   商品名 / 数量 / JAN
+   ========================================================= */
+
+.inventory-row--odd,
+.inventory-row--even {
+    grid-template-columns:
+        minmax(0,
+            1fr) 8mm 42mm !important;
+
+    grid-template-areas:
+        "name quantity barcode" !important;
+}
+
+
+/* =========================================================
+   JANセット 左右交互
+   ========================================================= */
+
+.inventory-row--odd .inventory-row__barcode-area {
+    justify-self:
+        end !important;
+
+    transform:
+        none !important;
+}
+
+
+.inventory-row--even .inventory-row__barcode-area {
+    justify-self:
+        start !important;
+
+    transform:
+        none !important;
+}
+
+
+/* =========================================================
+   右半分 商品名余白
+   ========================================================= */
+
+.inventory-page .inventory-row:nth-child(n + 29) .inventory-row__name {
+    box-sizing:
+        border-box !important;
+
+    padding-left:
+        1.5mm !important;
+}
+
+
+/* =========================================================
+   商品名
+   ========================================================= */
+
+.inventory-row__name {
+    grid-area:
+        name !important;
+
+    min-width:
+        0 !important;
+
+    max-height:
+        100% !important;
+
+    overflow:
+        hidden !important;
+}
+
+
+.inventory-row__name-text {
+    display:
+        -webkit-box !important;
+
+    width:
+        100% !important;
+
+    min-width:
+        0 !important;
+
+    max-width:
+        100% !important;
+
+    max-height:
+        100% !important;
+
+    overflow:
+        hidden !important;
+
+    color:
+        #000000 !important;
+
+    font-size:
+        0.66rem !important;
+
+    font-weight:
+        500 !important;
+
+    line-height:
+        1.05 !important;
+
+    white-space:
+        normal !important;
+
+    overflow-wrap:
+        anywhere !important;
+
+    -webkit-box-orient:
+        vertical !important;
+
+    -webkit-line-clamp:
+        2 !important;
+
+    line-clamp:
+        2 !important;
+}
+
+
+/* =========================================================
+   数量
+   ========================================================= */
+
+.inventory-row__quantity {
+    grid-area:
+        quantity !important;
+
+    min-width:
+        0 !important;
+
+    display:
+        grid !important;
+
+    place-items:
+        center !important;
+
+    overflow:
+        hidden !important;
+}
+
+
+.inventory-row__quantity-value {
+    display:
+        block !important;
+
+    width:
+        100% !important;
+
+    overflow:
+        hidden !important;
+
+    color:
+        #000000 !important;
+
+    font-size:
+        0.66rem !important;
+
+    font-weight:
+        700 !important;
+
+    line-height:
+        1.05 !important;
+
+    text-align:
+        center !important;
+
+    white-space:
+        nowrap !important;
+
+    text-overflow:
+        ellipsis !important;
+
+    font-variant-numeric:
+        tabular-nums !important;
+}
+
+
+/* =========================================================
+   JANセット
+   ========================================================= */
+
+.inventory-row__barcode-area {
+    grid-area:
+        barcode !important;
+
+    width:
+        37.29mm !important;
+
+    min-width:
+        37.29mm !important;
+
+    max-width:
+        37.29mm !important;
+
+    min-height:
+        0 !important;
+
+    display:
+        grid !important;
+
+    justify-items:
+        center !important;
+
+    align-content:
+        center !important;
+
+    gap:
+        0 !important;
+
+    overflow:
+        hidden !important;
+}
+
+
+/* =========================================================
+   JANバーコード
+   ========================================================= */
+
+.inventory-row__barcode {
+    display:
+        block !important;
+
+    width:
+        37.29mm !important;
+
+    min-width:
+        37.29mm !important;
+
+    max-width:
+        37.29mm !important;
+
+    height:
+        6mm !important;
+}
+
+
+/* =========================================================
+   PLU文字
+   ========================================================= */
+
+.inventory-row__plu-text {
+    width:
+        100% !important;
+
+    max-width:
+        100% !important;
+
+    margin:
+        0.1mm 0 0 !important;
+
+    overflow:
+        hidden !important;
+
+    color:
+        #222222 !important;
+
+    font-size:
+        0.36rem !important;
+
+    font-weight:
+        400 !important;
+
+    line-height:
+        1 !important;
+
+    text-align:
+        center !important;
+
+    white-space:
+        nowrap !important;
+
+    text-overflow:
+        ellipsis !important;
+
+    font-variant-numeric:
+        tabular-nums !important;
+}
+
+
+/* =========================================================
+   バーコードエラー
+   ========================================================= */
+
+.inventory-row__barcode-error {
+    width:
+        100% !important;
+
+    max-width:
+        100% !important;
+
+    overflow:
+        hidden !important;
+
+    color:
+        #000000 !important;
+
+    font-size:
+        0.36rem !important;
+
+    font-weight:
+        600 !important;
+
+    line-height:
+        1.1 !important;
+
+    text-align:
+        center !important;
+
+    white-space:
+        nowrap !important;
+
+    text-overflow:
+        ellipsis !important;
+}
+
+
+.inventory-row__barcode-error[hidden] {
+    display:
+        none !important;
+}

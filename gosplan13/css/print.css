@@ -1,0 +1,350 @@
+@page {
+    size: A4 landscape;
+    margin: 0;
+}
+
+html,
+body {
+    width: 297mm;
+    height: 210mm;
+    margin: 0;
+    padding: 0;
+    background: #ffffff;
+}
+
+/*
+ * 印刷に不要な画面操作用UIを非表示にする。
+ */
+.header,
+.ribbon,
+.footer {
+    display: none !important;
+}
+
+/*
+ * mainはA4用紙を収めるだけの領域として扱う。
+ */
+.main {
+    width: 297mm;
+    height: 210mm;
+
+    min-width: 0;
+    min-height: 0;
+
+    margin: 0;
+    padding: 0;
+
+    display: block;
+
+    overflow: hidden;
+}
+
+/*
+ * A4プレビュー本体。
+ *
+ * 画面側の設定:
+ * padding: 1.5cqw
+ * gap: 0.5cqw
+ *
+ * A4横297mmを基準に換算すると、
+ * 1cqwは約2.97mmとなる。
+ *
+ * padding:
+ * 1.5 × 2.97mm = 約4.46mm
+ *
+ * gap:
+ * 0.5 × 2.97mm = 約1.49mm
+ */
+.a4-preview {
+    width: 297mm;
+    height: 210mm;
+
+    margin: 0;
+    padding: 4.45mm;
+
+    box-sizing: border-box;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(6, minmax(0, 1fr));
+
+    grid-template-rows:
+        repeat(8, minmax(0, 1fr));
+
+    column-gap: 1.48mm;
+    row-gap: 1.48mm;
+
+    background: #ffffff;
+
+    box-shadow: none;
+
+    overflow: hidden;
+
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+}
+
+/*
+ * 画像ありモードでは、
+ * 画面側と同じく4行構成にする。
+ */
+.a4-preview--with-images {
+    grid-template-rows:
+        repeat(4, minmax(0, 1fr));
+}
+
+/*
+ * 各商品ラベル。
+ *
+ * 画面側のpadding: 0.4cqwは、
+ * 約1.19mmに相当する。
+ */
+.product-label {
+    min-width: 0;
+    min-height: 0;
+
+    padding: 1.18mm;
+
+    box-sizing: border-box;
+
+    display: grid;
+
+    /* grid-template-rows: */
+    /* auto minmax(0, 1fr) auto; */
+    grid-template-rows:
+        auto minmax(0, 1fr) auto auto;
+
+    row-gap: 0;
+
+    overflow: hidden;
+
+    border: 0.2mm solid #b8bec8;
+
+    background: #ffffff;
+
+    break-inside: avoid;
+    page-break-inside: avoid;
+}
+
+.product-label__barcode-placeholder {
+    display: none !important;
+}
+
+.product-label__barcode-area {
+    border: 0;
+    border-radius: 0;
+}
+
+/*
+ * 画像ありモードの商品ラベル。
+ *
+ * 画面側の7cqhをA4縦210mmで換算すると、
+ * 7 × 2.1mm = 14.7mmになる。
+ */
+.a4-preview--with-images .product-label {
+    grid-template-rows:
+        auto minmax(0, 1fr) 14.7mm auto;
+}
+
+/*
+ * 商品名入力欄とJAN入力欄から、
+ * 印刷時に不要なブラウザ標準装飾を除去する。
+ */
+.product-label__name-input,
+.product-label__jan-input {
+    width: 100%;
+    min-width: 0;
+    height: 3.8mm;
+
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
+
+    display: block;
+
+    border: 0;
+    border-radius: 0;
+
+    outline: 0;
+    box-shadow: none;
+
+    color: #000000;
+    background: transparent;
+
+    font-family: inherit;
+
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+/*
+ * 商品名入力欄。
+ *
+ * 画面側の1.2cqwは約3.56mm、
+ * ポイント換算では約10.1ptとなる。
+ */
+.product-label__name-input {
+    font-size: 10pt;
+    line-height: 1.2;
+    font-weight: normal;
+}
+
+/*
+ * JAN入力欄。
+ *
+ * 画面側:
+ * height: 2.2cqh
+ * font-size: 0.85cqw
+ *
+ * A4換算:
+ * heightは約4.62mm
+ * font-sizeは約7.2pt
+ */
+.product-label__jan-input {
+    height: 4.62mm;
+
+    font-size: 7.2pt;
+    line-height: 1;
+
+    text-align: center;
+    letter-spacing: normal;
+}
+
+/*
+ * 印刷時にはplaceholder文字を表示しない。
+ */
+.product-label__name-input::placeholder,
+.product-label__jan-input::placeholder {
+    color: transparent;
+}
+
+/*
+ * 画像領域は通常モードでは表示しない。
+ */
+.product-label__image-area {
+    display: none;
+
+    min-width: 0;
+    min-height: 0;
+}
+
+/*
+ * 画像ありモードの場合のみ画像領域を表示する。
+ */
+.a4-preview--with-images .product-label__image-area {
+    display: block;
+}
+
+/*
+ * ファイル選択inputは印刷しない。
+ */
+.product-label__image-input {
+    display: none !important;
+}
+
+/*
+ * 画像選択枠は印刷時には装飾を消す。
+ */
+.product-label__image-picker {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    min-width: 0;
+    min-height: 0;
+
+    display: grid;
+    place-items: center;
+
+    overflow: hidden;
+
+    border: 0;
+    border-radius: 0;
+
+    background: transparent;
+
+    cursor: default;
+}
+
+/*
+ * 未選択時の案内表示は印刷しない。
+ */
+.product-label__image-placeholder {
+    display: none !important;
+}
+
+/*
+ * 選択済み画像。
+ */
+.product-label__image-preview {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    object-fit: contain;
+}
+
+/*
+ * hidden属性付き画像は印刷時も非表示にする。
+ */
+.product-label__image-preview[hidden] {
+    display: none !important;
+}
+
+/*
+ * バーコード領域。
+ *
+ * 画面側と同様に、
+ * 内容の高さに応じて配置する。
+ */
+.product-label__barcode-area {
+    min-width: 0;
+    min-height: 0;
+
+    box-sizing: border-box;
+
+    height: 12mm;
+
+    line-height: 0;
+
+    overflow: hidden;
+}
+
+/*
+ * バーコードSVG。
+ *
+ * SVGをblockにすることで、
+ * インライン要素由来の下余白をなくす。
+ */
+.product-label__barcode {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+
+    overflow: hidden;
+}
+
+/*
+ * JAN入力欄を包む領域。
+ *
+ * inputのベースライン由来の余白を防ぐ。
+ */
+.product-label__jan-area {
+    min-width: 0;
+
+    height: fit-content;
+
+    line-height: 0;
+}
+
+/*
+ * 印刷時にリンクURLを自動追加させない。
+ */
+a[href]::after {
+    content: none !important;
+}
