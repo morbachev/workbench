@@ -879,7 +879,7 @@ body {
 
 .print-flow-dialog {
     width:
-        min(35rem, calc(100vw - 3rem));
+        min(35rem, calc(100% - 3rem));
 
     margin:
         auto;
@@ -1182,7 +1182,7 @@ body {
 
 .template-dialog {
     width:
-        min(70rem, calc(100vw - 3rem));
+        min(70rem, calc(100% - 3rem));
 
     max-height:
         calc(100vh - 3rem);
@@ -2098,7 +2098,7 @@ body {
 
 .confirm-dialog {
     width:
-        min(26rem, calc(100vw - 3rem));
+        min(26rem, calc(100% - 3rem));
 
     margin:
         auto;
