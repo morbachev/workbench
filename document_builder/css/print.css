@@ -1,0 +1,192 @@
+/* =========================================================
+   DOCUMENT BUILDER
+   PRINT
+   ========================================================= */
+
+
+/* =========================================================
+   Page
+   ========================================================= */
+
+@page {
+    size:
+        A4 portrait;
+
+    margin:
+        0;
+}
+
+
+/* =========================================================
+   Root
+   ========================================================= */
+
+html,
+body {
+    width:
+        210mm;
+
+    min-width:
+        0;
+
+    margin:
+        0;
+
+    padding:
+        0;
+
+    background:
+        #ffffff;
+}
+
+
+body {
+    print-color-adjust:
+        exact;
+
+    -webkit-print-color-adjust:
+        exact;
+}
+
+
+/* =========================================================
+   Hide UI
+   ========================================================= */
+
+.top-panel,
+.document-fields-panel,
+.document-preview-header,
+.footer,
+.document-toast,
+.template-dialog,
+.confirm-dialog,
+.print-flow-dialog {
+    display:
+        none !important;
+}
+
+
+/* =========================================================
+   Main
+   ========================================================= */
+
+.document-builder-main {
+    display:
+        block;
+
+    width:
+        210mm;
+
+    margin:
+        0;
+
+    padding:
+        0;
+}
+
+
+/* =========================================================
+   Preview
+   ========================================================= */
+
+.document-preview-area {
+    width:
+        210mm;
+
+    margin:
+        0;
+
+    padding:
+        0;
+}
+
+
+.document-preview-stage {
+    display:
+        block;
+
+    min-height:
+        0;
+
+    margin:
+        0;
+
+    padding:
+        0;
+
+    overflow:
+        visible;
+
+    border:
+        0;
+
+    border-radius:
+        0;
+
+    background:
+        transparent;
+
+    box-shadow:
+        none;
+}
+
+
+/* =========================================================
+   A4
+   ========================================================= */
+
+.document-page {
+    width:
+        210mm;
+
+    height:
+        297mm;
+
+    min-height:
+        297mm;
+
+    max-height:
+        297mm;
+
+    margin:
+        0;
+
+    padding:
+        0;
+
+    overflow:
+        hidden;
+
+    border:
+        0;
+
+    background:
+        #ffffff;
+
+    box-shadow:
+        none;
+}
+
+
+.document-content {
+    width:
+        210mm;
+
+    height:
+        297mm;
+
+    min-height:
+        297mm;
+
+    box-sizing:
+        border-box;
+
+    overflow:
+        hidden;
+}
+
+
+.document-page-empty {
+    display:
+        none !important;
+}

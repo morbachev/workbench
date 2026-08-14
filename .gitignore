@@ -24,3 +24,5 @@ gosplan13_*.json
 .env
 .env.*
 !.env.example
+
+document_builder/json/

@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>
+        DOCUMENT BUILDER | WORKBENCH
+    </title>
+
+    <meta name="description" content="登録したテンプレートから定型文書を作成し、A4縦で印刷するWebツールです。">
+
+    <meta name="theme-color" content="#ffffff">
+
+
+    <!-- =====================================================
+         WORKBENCH
+         ===================================================== -->
+
+    <link rel="stylesheet" href="../css/ress.css">
+
+    <link rel="stylesheet" href="../css/header.css">
+
+    <link rel="stylesheet" href="../css/button.css">
+
+    <link rel="stylesheet" href="../css/styles.css">
+
+
+    <!-- =====================================================
+         DOCUMENT BUILDER
+         ===================================================== -->
+
+    <link rel="stylesheet" href="./css/styles.css">
+
+    <link rel="stylesheet" href="./css/print.css" media="print">
+
+
+    <!-- =====================================================
+         Scripts
+         ===================================================== -->
+
+    <script src="../dist/site-header.js" type="module"></script>
+
+    <script src="./dist/main.bundle.js" type="module"></script>
+
+</head>
+
+
+<body>
+
+    <!-- =====================================================
+         Header
+         ===================================================== -->
+
+    <div class="top-panel">
+
+        <div class="top-panel__content">
+
+            <site-header></site-header>
+
+
+            <!-- =================================================
+                 Ribbon
+                 ================================================= -->
+
+            <section class="document-ribbon" aria-label="文書操作">
+
+                <div class="document-ribbon__left">
+
+                    <input id="json-import-input" type="file" accept=".json,application/json" hidden>
+
+
+                    <button id="json-import-button" type="button" class="glass-button">
+                        JSONインポート
+                    </button>
+
+
+                    <button id="json-export-button" type="button" class="glass-button" disabled>
+                        JSON出力
+                    </button>
+
+
+                    <div class="document-ribbon__separator" aria-hidden="true"></div>
+
+
+                    <div class="template-selector">
+
+                        <label for="template-select" class="template-selector__label">
+                            テンプレート
+                        </label>
+
+
+                        <select id="template-select" class="template-selector__select" aria-label="テンプレートを選択">
+
+                            <option value="">
+                                テンプレートを選択
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <button id="template-settings-button" type="button" class="glass-button glass-button--icon"
+                        aria-label="テンプレート設定" title="テンプレート設定">
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="glass-button__icon" viewBox="0 -960 960 960"
+                            aria-hidden="true">
+                            <path
+                                d="m370-80-16-128q-13-5-24.5-12T307-235l-119 50L78-375l103-78q-1-7-1-13.5v-27q0-6.5 1-13.5L78-585l110-190 119 50q11-8 23-15t24-12l16-128h220l16 128q13 5 24.5 12t22.5 15l119-50 110 190-103 78q1 7 1 13.5v27q0 6.5-2 13.5l104 78-110 190-119-50q-11 8-23 15t-24 12L590-80H370Zm110-260q58 0 99-41t41-99q0-58-41-99t-99-41q-58 0-99 41t-41 99q0 58 41 99t99 41Z" />
+                        </svg>
+
+                    </button>
+
+                </div>
+
+
+                <div class="document-ribbon__right">
+
+                    <button id="print-button" type="button" class="glass-button glass-button--primary" disabled>
+                        印刷に進む
+                    </button>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         Main
+         ===================================================== -->
+
+    <main class="document-builder-main">
+
+        <!-- =================================================
+             Input
+             ================================================= -->
+
+        <aside class="document-fields-panel" aria-labelledby="document-fields-title">
+
+            <header class="document-fields-panel__header">
+
+                <p class="document-fields-panel__eyebrow">
+                    DOCUMENT FIELDS
+                </p>
+
+
+                <h1 id="document-fields-title" class="document-fields-panel__title">
+                    文書入力
+                </h1>
+
+
+                <p id="active-template-name" class="document-fields-panel__template-name" hidden></p>
+
+            </header>
+
+
+            <div id="document-fields-empty" class="document-empty-state">
+
+                <h2 class="document-empty-state__title">
+                    テンプレートを選択
+                </h2>
+
+
+                <p class="document-empty-state__description">
+                    登録済みテンプレートを選択するか、
+                    JSONをインポートしてください。
+                </p>
+
+            </div>
+
+
+            <form id="document-fields-form" class="document-fields-form" autocomplete="off" hidden>
+
+                <div id="document-fields" class="document-fields"></div>
+
+            </form>
+
+        </aside>
+
+
+        <!-- =================================================
+             Preview
+             ================================================= -->
+
+        <section class="document-preview-area" aria-labelledby="document-preview-title">
+
+            <header class="document-preview-header">
+
+                <div>
+
+                    <p class="document-preview-header__eyebrow">
+                        PRINT PREVIEW
+                    </p>
+
+
+                    <h2 id="document-preview-title" class="document-preview-header__title">
+                        A4プレビュー
+                    </h2>
+
+                </div>
+
+
+                <span class="document-preview-header__badge">
+                    A4縦
+                </span>
+
+            </header>
+
+
+            <div class="document-preview-stage">
+
+                <article id="document-page" class="document-page" aria-label="文書プレビュー">
+
+                    <div id="document-preview-empty" class="document-page-empty">
+
+                        <p>
+                            テンプレートを選択すると<br>
+                            文書がここに表示されます。
+                        </p>
+
+                    </div>
+
+
+                    <div id="document-content" class="document-content" hidden>
+
+                        <div class="business-document__top">
+
+                            <div id="document-top-left" class="business-document__top-left"></div>
+
+
+                            <div id="document-top-right" class="business-document__top-right"></div>
+
+                        </div>
+
+
+                        <div id="document-opening" class="business-document__opening"></div>
+
+
+                        <div id="document-body" class="business-document__body"></div>
+
+
+                        <div id="document-closing" class="business-document__closing"></div>
+
+
+                        <div id="document-end" class="business-document__end"></div>
+
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         PRINT FLOW
+         ===================================================== -->
+
+    <dialog id="print-flow-dialog" class="print-flow-dialog" aria-labelledby="print-flow-title">
+
+        <div class="print-flow-dialog__surface">
+
+            <header class="print-flow-dialog__header">
+
+                <div>
+
+                    <p class="print-flow-dialog__eyebrow">
+                        PRINT
+                    </p>
+
+
+                    <h2 id="print-flow-title" class="print-flow-dialog__title">
+                        印刷に進む
+                    </h2>
+
+                </div>
+
+
+                <button id="print-flow-close-button" type="button" class="print-flow-dialog__close" aria-label="閉じる">
+                    ×
+                </button>
+
+            </header>
+
+
+            <div class="print-flow-dialog__content">
+
+                <!-- =============================================
+                     STEP 1
+                     ============================================= -->
+
+                <section id="print-step-one" class="print-flow-step">
+
+                    <div class="print-flow-step__number">
+                        1
+                    </div>
+
+
+                    <div class="print-flow-step__body">
+
+                        <h3 class="print-flow-step__title">
+                            PDFを保存
+                        </h3>
+
+
+                        <p class="print-flow-step__description">
+                            発行した文書をPDFとして保存します。
+                            保存が完了すると印刷へ進めます。
+                        </p>
+
+
+                        <div class="print-flow-file">
+
+                            <span class="print-flow-file__label">
+                                保存ファイル
+                            </span>
+
+
+                            <strong id="print-file-name" class="print-flow-file__name">
+                                文書.pdf
+                            </strong>
+
+                        </div>
+
+
+                        <button id="print-save-pdf-button" type="button" class="glass-button glass-button--primary">
+                            PDFを保存
+                        </button>
+
+
+                        <p id="print-step-one-status" class="print-flow-step__status" hidden></p>
+
+                    </div>
+
+                </section>
+
+
+                <div class="print-flow-connector" aria-hidden="true"></div>
+
+
+                <!-- =============================================
+                     STEP 2
+                     ============================================= -->
+
+                <section id="print-step-two" class="print-flow-step print-flow-step--disabled">
+
+                    <div class="print-flow-step__number">
+                        2
+                    </div>
+
+
+                    <div class="print-flow-step__body">
+
+                        <h3 class="print-flow-step__title">
+                            印刷
+                        </h3>
+
+
+                        <p class="print-flow-step__description">
+                            保存済みの文書をプリンターから印刷します。
+                        </p>
+
+
+                        <button id="print-final-button" type="button" class="glass-button glass-button--primary"
+                            disabled>
+                            印刷する
+                        </button>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </div>
+
+    </dialog>
+
+
+    <!-- =====================================================
+         TEMPLATE SETTINGS
+         ===================================================== -->
+
+    <dialog id="template-settings-dialog" class="template-dialog" aria-labelledby="template-dialog-title">
+
+        <div class="template-dialog__surface">
+
+            <!-- =================================================
+                 LIST
+                 ================================================= -->
+
+            <section id="template-list-view" class="template-dialog__view">
+
+                <header class="template-dialog__header">
+
+                    <div>
+
+                        <p class="template-dialog__eyebrow">
+                            TEMPLATE SETTINGS
+                        </p>
+
+
+                        <h2 id="template-dialog-title" class="template-dialog__title">
+                            テンプレート設定
+                        </h2>
+
+                    </div>
+
+
+                    <button id="template-dialog-close-button" type="button" class="template-dialog__close"
+                        aria-label="閉じる">
+                        ×
+                    </button>
+
+                </header>
+
+
+                <div class="template-dialog__intro">
+
+                    <p>
+                        テンプレートはこのブラウザ内に保存されます。
+                        JSONから登録するか、テンプレートビルダーで作成できます。
+                    </p>
+
+                </div>
+
+
+                <div class="template-dialog__toolbar">
+
+                    <button id="template-builder-button" type="button" class="glass-button">
+                        テンプレートビルダー
+                    </button>
+
+
+                    <input id="template-add-input" type="file" accept=".json,application/json" hidden>
+
+
+                    <button id="template-add-button" type="button" class="glass-button glass-button--primary">
+                        テンプレートを追加
+                    </button>
+
+                </div>
+
+
+                <div class="template-dialog__content">
+
+                    <div id="template-list-empty" class="template-list-empty">
+
+                        <p class="template-list-empty__title">
+                            登録済みテンプレートはありません
+                        </p>
+
+
+                        <p class="template-list-empty__description">
+                            JSONまたはテンプレートビルダーから追加できます。
+                        </p>
+
+                    </div>
+
+
+                    <div id="template-list" class="template-list" hidden></div>
+
+                </div>
+
+
+                <footer class="template-dialog__footer">
+
+                    <button id="template-dialog-done-button" type="button" class="glass-button">
+                        閉じる
+                    </button>
+
+                </footer>
+
+            </section>
+
+
+            <!-- =================================================
+                 BUILDER
+                 ================================================= -->
+
+            <section id="template-builder-view" class="template-dialog__view" hidden>
+
+                <header class="template-dialog__header">
+
+                    <div class="template-builder-heading">
+
+                        <button id="template-builder-back-button" type="button" class="template-builder-back-button"
+                            aria-label="テンプレート一覧へ戻る">
+                            ←
+                        </button>
+
+
+                        <div>
+
+                            <p class="template-dialog__eyebrow">
+                                TEMPLATE BUILDER
+                            </p>
+
+
+                            <h2 id="template-builder-title" class="template-dialog__title">
+                                テンプレートを作成
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+                    <button id="template-builder-close-button" type="button" class="template-dialog__close"
+                        aria-label="閉じる">
+                        ×
+                    </button>
+
+                </header>
+
+
+                <form id="template-builder-form" class="template-builder-form" autocomplete="off">
+
+                    <input id="template-builder-id" type="hidden">
+
+
+                    <div class="template-builder-content">
+
+                        <!-- =====================================
+                             LEFT
+                             ===================================== -->
+
+                        <div class="template-builder-column">
+
+                            <section class="template-builder-section">
+
+                                <div class="template-builder-section__heading">
+
+                                    <h3 class="template-builder-section__title">
+                                        基本情報
+                                    </h3>
+
+                                </div>
+
+
+                                <div class="template-builder-control">
+
+                                    <label class="template-builder-control__label" for="template-builder-name">
+                                        テンプレート名
+                                    </label>
+
+
+                                    <input id="template-builder-name" class="template-builder-control__input"
+                                        type="text" maxlength="100" placeholder="例：文書テンプレート" required>
+
+                                </div>
+
+
+                                <div class="template-builder-id">
+
+                                    <span class="template-builder-id__label">
+                                        ID
+                                    </span>
+
+
+                                    <code id="template-builder-id-display" class="template-builder-id__value"></code>
+
+                                </div>
+
+                            </section>
+
+
+                            <section class="template-builder-section">
+
+                                <div class="template-builder-section__heading">
+
+                                    <div>
+
+                                        <h3 class="template-builder-section__title">
+                                            入力項目
+                                        </h3>
+
+
+                                        <p class="template-builder-section__description">
+                                            文書内では {field1} の形式で参照します。
+                                        </p>
+
+                                    </div>
+
+
+                                    <button id="template-builder-add-field-button" type="button" class="glass-button">
+                                        入力欄を追加
+                                    </button>
+
+                                </div>
+
+
+                                <div id="template-builder-fields" class="template-builder-fields"></div>
+
+                            </section>
+
+                        </div>
+
+
+                        <!-- =====================================
+                             RIGHT
+                             ===================================== -->
+
+                        <div class="template-builder-column">
+
+                            <section class="template-builder-section">
+
+                                <div class="template-builder-section__heading">
+
+                                    <div>
+
+                                        <h3 class="template-builder-section__title">
+                                            文書テンプレート
+                                        </h3>
+
+
+                                        <p class="template-builder-section__description">
+                                            {field1} などを入力すると、
+                                            対応する入力欄の値が差し込まれます。
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="template-builder-control">
+
+                                    <label class="template-builder-control__label" for="template-builder-top-left">
+                                        左上
+                                    </label>
+
+
+                                    <textarea id="template-builder-top-left"
+                                        class="template-builder-control__textarea template-builder-control__textarea--small"
+                                        rows="2" placeholder="{field1}　様"></textarea>
+
+                                </div>
+
+
+                                <div class="template-builder-control">
+
+                                    <label class="template-builder-control__label" for="template-builder-top-right">
+                                        右上
+                                    </label>
+
+
+                                    <textarea id="template-builder-top-right" class="template-builder-control__textarea"
+                                        rows="4" placeholder="{field2}&#10;会社名&#10;住所&#10;担当者名"></textarea>
+
+                                </div>
+
+
+                                <div class="template-builder-control">
+
+                                    <label class="template-builder-control__label" for="template-builder-opening">
+                                        書き出し
+                                    </label>
+
+
+                                    <input id="template-builder-opening" class="template-builder-control__input"
+                                        type="text" placeholder="拝啓">
+
+                                </div>
+
+
+                                <div class="template-builder-control">
+
+                                    <label class="template-builder-control__label" for="template-builder-body">
+                                        本文
+                                    </label>
+
+
+                                    <textarea id="template-builder-body"
+                                        class="template-builder-control__textarea template-builder-control__textarea--body"
+                                        rows="12" placeholder="{field3}の件について&#10;&#10;本文..."></textarea>
+
+                                </div>
+
+
+                                <div class="template-builder-control">
+
+                                    <label class="template-builder-control__label" for="template-builder-closing">
+                                        結び
+                                    </label>
+
+
+                                    <input id="template-builder-closing" class="template-builder-control__input"
+                                        type="text" placeholder="敬具">
+
+                                </div>
+
+
+                                <div class="template-builder-control">
+
+                                    <label class="template-builder-control__label" for="template-builder-end">
+                                        終端
+                                    </label>
+
+
+                                    <textarea id="template-builder-end"
+                                        class="template-builder-control__textarea template-builder-control__textarea--small"
+                                        rows="2" placeholder="以上"></textarea>
+
+                                </div>
+
+                            </section>
+
+                        </div>
+
+                    </div>
+
+
+                    <p id="template-builder-error" class="template-builder-error" role="alert" hidden></p>
+
+
+                    <footer class="template-builder-footer">
+
+                        <button id="template-builder-export-button" type="button" class="glass-button">
+                            JSON出力
+                        </button>
+
+
+                        <div class="template-builder-footer__right">
+
+                            <button id="template-builder-cancel-button" type="button" class="glass-button">
+                                キャンセル
+                            </button>
+
+
+                            <button id="template-builder-save-button" type="submit"
+                                class="glass-button glass-button--primary">
+                                テンプレートとして登録
+                            </button>
+
+                        </div>
+
+                    </footer>
+
+                </form>
+
+            </section>
+
+        </div>
+
+    </dialog>
+
+
+    <!-- =====================================================
+         TEMPLATE CARD
+         ===================================================== -->
+
+    <template id="template-card-template">
+
+        <article class="template-card">
+
+            <div class="template-card__main">
+
+                <div class="template-card__information">
+
+                    <h3 class="template-card__name"></h3>
+
+                    <p class="template-card__meta"></p>
+
+                </div>
+
+            </div>
+
+
+            <div class="template-card__actions">
+
+                <button type="button" class="glass-button template-card__export-button">
+                    JSON出力
+                </button>
+
+
+                <button type="button" class="glass-button template-card__edit-button">
+                    編集
+                </button>
+
+
+                <button type="button" class="glass-button template-card__delete-button">
+                    削除
+                </button>
+
+            </div>
+
+        </article>
+
+    </template>
+
+
+    <!-- =====================================================
+         TEMPLATE BUILDER FIELD
+         ===================================================== -->
+
+    <template id="template-builder-field-template">
+
+        <article class="template-builder-field">
+
+            <header class="template-builder-field__header">
+
+                <div>
+
+                    <span class="template-builder-field__id-label">
+                        入力ID
+                    </span>
+
+
+                    <code class="template-builder-field__id"></code>
+
+
+                    <code class="template-builder-field__token"></code>
+
+                </div>
+
+
+                <button type="button" class="template-builder-field__remove">
+                    削除
+                </button>
+
+            </header>
+
+
+            <div class="template-builder-field__grid">
+
+                <div class="template-builder-control">
+
+                    <label class="template-builder-control__label">
+                        表示名
+                    </label>
+
+
+                    <input class="template-builder-control__input template-builder-field__label" type="text"
+                        placeholder="例：宛先" required>
+
+                </div>
+
+
+                <div class="template-builder-control">
+
+                    <label class="template-builder-control__label">
+                        種類
+                    </label>
+
+
+                    <select class="template-builder-control__select template-builder-field__type">
+
+                        <option value="text">
+                            1行入力
+                        </option>
+
+
+                        <option value="textarea">
+                            複数行入力
+                        </option>
+
+
+                        <option value="date">
+                            日付
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="template-builder-control">
+
+                    <label class="template-builder-control__label">
+                        初期値
+                    </label>
+
+
+                    <input class="template-builder-control__input template-builder-field__default" type="text">
+
+                </div>
+
+
+                <div class="template-builder-control">
+
+                    <label class="template-builder-control__label">
+                        Placeholder
+                    </label>
+
+
+                    <input class="template-builder-control__input template-builder-field__placeholder" type="text"
+                        placeholder="例：山田 太郎">
+
+                </div>
+
+            </div>
+
+
+            <label class="template-builder-required">
+
+                <input class="template-builder-field__required" type="checkbox">
+
+                必須入力にする
+
+            </label>
+
+        </article>
+
+    </template>
+
+
+    <!-- =====================================================
+         DOCUMENT FIELD TEMPLATES
+         ===================================================== -->
+
+    <template id="text-field-template">
+
+        <div class="document-field">
+
+            <label class="document-field__label"></label>
+
+
+            <input class="document-field__input" type="text" autocomplete="off">
+
+        </div>
+
+    </template>
+
+
+    <template id="textarea-field-template">
+
+        <div class="document-field">
+
+            <label class="document-field__label"></label>
+
+
+            <textarea class="document-field__textarea" rows="5"></textarea>
+
+        </div>
+
+    </template>
+
+
+    <template id="date-field-template">
+
+        <div class="document-field">
+
+            <label class="document-field__label"></label>
+
+
+            <input class="document-field__input" type="date">
+
+        </div>
+
+    </template>
+
+
+    <!-- =====================================================
+         DELETE
+         ===================================================== -->
+
+    <dialog id="template-delete-dialog" class="confirm-dialog">
+
+        <div class="confirm-dialog__surface">
+
+            <h2 class="confirm-dialog__title">
+                テンプレートを削除しますか？
+            </h2>
+
+
+            <p class="confirm-dialog__description">
+                ブラウザに保存されているテンプレートが削除されます。
+            </p>
+
+
+            <div class="confirm-dialog__actions">
+
+                <button id="template-delete-cancel-button" type="button" class="glass-button">
+                    キャンセル
+                </button>
+
+
+                <button id="template-delete-confirm-button" type="button"
+                    class="glass-button confirm-dialog__delete-button">
+                    削除
+                </button>
+
+            </div>
+
+        </div>
+
+    </dialog>
+
+
+    <!-- =====================================================
+         TOAST
+         ===================================================== -->
+
+    <div id="document-toast" class="document-toast" role="status" aria-live="polite" hidden></div>
+
+
+    <!-- =====================================================
+         Footer
+         ===================================================== -->
+
+    <footer class="footer">
+
+        <small>
+            Copyright © 2026 Morbee. All Rights Reserved.
+        </small>
+
+    </footer>
+
+</body>
+
+</html>

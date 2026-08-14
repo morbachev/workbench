@@ -1,23 +1,31 @@
 {
   "name": "workbench",
   "version": "1.0.0",
-  "description": "Static browser-based utilities for label generation, inventory printing, and preset documents.",
+  "description": "Static browser-based utilities for label generation, inventory printing, preset documents, and document templates.",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "npm run build:root && npm run build:gosplan13 && npm run build:inventory",
+    "build": "npm run build:root && npm run build:gosplan13 && npm run build:inventory && npm run build:document",
     "build:root": "tsc -p tsconfig.json",
     "build:gosplan13": "tsc -p gosplan13/tsconfig.json",
     "build:inventory": "tsc -p inventory_batch/tsconfig.json",
-    "check": "npm run check:root && npm run check:gosplan13 && npm run check:inventory",
+    "build:document": "tsc -p document_builder/tsconfig.json && esbuild document_builder/dist/main.js --bundle --format=esm --platform=browser --target=es2020 --outfile=document_builder/dist/main.bundle.js",
+    "check": "npm run check:root && npm run check:gosplan13 && npm run check:inventory && npm run check:document",
     "check:root": "tsc -p tsconfig.json --noEmit",
     "check:gosplan13": "tsc -p gosplan13/tsconfig.json --noEmit",
     "check:inventory": "tsc -p inventory_batch/tsconfig.json --noEmit",
+    "check:document": "tsc -p document_builder/tsconfig.json --noEmit",
     "watch:root": "tsc -p tsconfig.json --watch",
     "watch:gosplan13": "tsc -p gosplan13/tsconfig.json --watch",
-    "watch:inventory": "tsc -p inventory_batch/tsconfig.json --watch"
+    "watch:inventory": "tsc -p inventory_batch/tsconfig.json --watch",
+    "watch:document": "tsc -p document_builder/tsconfig.json --watch"
+  },
+  "dependencies": {
+    "html2canvas": "1.4.1",
+    "jspdf": "4.2.1"
   },
   "devDependencies": {
+    "esbuild": "0.28.1",
     "typescript": "^7.0.2"
   }
 }
