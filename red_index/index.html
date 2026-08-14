@@ -11,13 +11,13 @@
         RED INDEX | WORKBENCH
     </title>
 
-    <meta name="description" content="RED INDEXは現在開発中です。">
+    <meta name="description" content="割引不可商品リストを作成・印刷するWebツールです。">
 
     <meta name="theme-color" content="#ffffff">
 
 
     <!-- =====================================================
-         共通CSS
+         Common CSS
          ===================================================== -->
 
     <link rel="stylesheet" href="../css/ress.css">
@@ -30,9 +30,16 @@
 
 
     <!-- =====================================================
-         Script
+         RED INDEX
          ===================================================== -->
 
+    <link rel="stylesheet" href="./css/styles.css">
+
+
+    <!-- =====================================================
+         Common Script
+         ===================================================== -->
+    <script src="./dist/main.js" type="module"></script>
     <script src="../dist/site-header.js" type="module"></script>
 
 </head>
@@ -40,9 +47,8 @@
 
 <body>
 
-
     <!-- =====================================================
-         共通ヘッダー
+         Header / Ribbon
          ===================================================== -->
 
     <div class="top-panel">
@@ -51,76 +57,744 @@
 
             <site-header></site-header>
 
+
+            <section class="red-index-ribbon" aria-label="割引不可商品リスト操作">
+
+                <div class="red-index-ribbon__left">
+
+                    <input id="json-import-input" type="file" accept=".json,application/json" hidden>
+
+
+                    <button id="json-import-button" type="button" class="glass-button">
+                        JSONインポート
+                    </button>
+
+
+                    <button id="json-export-button" type="button" class="glass-button">
+                        JSON出力
+                    </button>
+
+                </div>
+
+
+                <div class="red-index-ribbon__right">
+
+                    <button id="print-button" type="button" class="glass-button glass-button--primary">
+                        印刷・PDF
+                    </button>
+
+                </div>
+
+            </section>
+
         </div>
 
     </div>
 
 
     <!-- =====================================================
-         開発中表示
+         Main
          ===================================================== -->
 
-    <main style="
-            width: min(100% - 3rem, 80rem);
-            min-height: 65vh;
-            margin-inline: auto;
-            display: grid;
-            place-items: center;
-            padding-block: 4rem;
-        ">
+    <main class="red-index-main">
 
-        <section style="
-                max-width: 36rem;
-                display: grid;
-                justify-items: center;
-                gap: 1.5rem;
-                text-align: center;
-            ">
+        <!-- =================================================
+             Left Editor
+             ================================================= -->
 
-            <div>
+        <aside class="red-index-editor" aria-labelledby="red-index-editor-title">
 
-                <p style="
-                        margin: 0 0 0.5rem;
-                        color: #6b7280;
-                        font-size: 0.75rem;
-                        font-weight: 700;
-                        letter-spacing: 0.1em;
-                    ">
-                    RED INDEX
+            <header class="red-index-editor__header">
+
+                <div>
+
+                    <p class="red-index-editor__eyebrow">
+                        RED INDEX
+                    </p>
+
+
+                    <h1 id="red-index-editor-title" class="red-index-editor__title">
+                        割引不可商品リスト
+                    </h1>
+
+                </div>
+
+
+                <p class="red-index-editor__description">
+                    カテゴリと対象商品を入力してください。
                 </p>
 
-
-                <h1 style="
-                        margin: 0;
-                        color: #1f2937;
-                        font-size: clamp(1.75rem, 4vw, 2.5rem);
-                        line-height: 1.3;
-                    ">
-                    現在開発中です
-                </h1>
+            </header>
 
 
-                <p style="
-                        margin: 1rem 0 0;
-                        color: #6b7280;
-                        font-size: 0.9rem;
-                        line-height: 1.7;
-                    ">
-                    この機能はまだ利用できません。<br>
-                    WORKBENCHへ戻ってください。
-                </p>
+            <!-- =================================================
+                 Category List
+                 ================================================= -->
+
+            <div id="category-list" class="category-list">
+
+                <!-- =============================================
+                     Category 1
+                     ============================================= -->
+
+                <section class="category-editor">
+
+                    <header class="category-editor__header">
+
+                        <div>
+
+                            <p class="category-editor__number">
+                                CATEGORY 01
+                            </p>
+
+
+                            <h2 class="category-editor__title">
+                                カテゴリ
+                            </h2>
+
+                        </div>
+
+
+                        <button type="button" class="category-editor__delete-button">
+                            削除
+                        </button>
+
+                    </header>
+
+
+                    <div class="category-editor__body">
+
+                        <div class="red-index-field">
+
+                            <label class="red-index-field__label" for="category-name-1">
+                                カテゴリ名
+                            </label>
+
+
+                            <input id="category-name-1" class="red-index-field__input" type="text" value="飲食物"
+                                placeholder="例：飲食物">
+
+                        </div>
+
+
+                        <div class="category-items">
+
+                            <div class="category-items__heading">
+
+                                <span class="red-index-field__label">
+                                    子要素
+                                </span>
+
+
+                                <button type="button" class="category-items__add-button" aria-label="子要素を追加">
+                                    ＋
+                                </button>
+
+                            </div>
+
+
+                            <div class="category-items__list">
+
+                                <div class="category-item">
+
+                                    <input class="red-index-field__input" type="text" value="フライドポテト"
+                                        placeholder="例：商品名">
+
+
+                                    <button type="button" class="category-item__remove-button" aria-label="子要素を削除">
+                                        ×
+                                    </button>
+
+                                </div>
+
+
+                                <div class="category-item">
+
+                                    <input class="red-index-field__input" type="text" value="ジュース" placeholder="例：商品名">
+
+
+                                    <button type="button" class="category-item__remove-button" aria-label="子要素を削除">
+                                        ×
+                                    </button>
+
+                                </div>
+
+
+                                <div class="category-item">
+
+                                    <input class="red-index-field__input" type="text" value="みかん" placeholder="例：商品名">
+
+
+                                    <button type="button" class="category-item__remove-button" aria-label="子要素を削除">
+                                        ×
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- =============================================
+                     Category 2
+                     ============================================= -->
+
+                <section class="category-editor">
+
+                    <header class="category-editor__header">
+
+                        <div>
+
+                            <p class="category-editor__number">
+                                CATEGORY 02
+                            </p>
+
+
+                            <h2 class="category-editor__title">
+                                カテゴリ
+                            </h2>
+
+                        </div>
+
+
+                        <button type="button" class="category-editor__delete-button">
+                            削除
+                        </button>
+
+                    </header>
+
+
+                    <div class="category-editor__body">
+
+                        <div class="red-index-field">
+
+                            <label class="red-index-field__label" for="category-name-2">
+                                カテゴリ名
+                            </label>
+
+
+                            <input id="category-name-2" class="red-index-field__input" type="text" value="委託商品"
+                                placeholder="例：委託商品">
+
+                        </div>
+
+
+                        <div class="category-items">
+
+                            <div class="category-items__heading">
+
+                                <span class="red-index-field__label">
+                                    子要素
+                                </span>
+
+
+                                <button type="button" class="category-items__add-button" aria-label="子要素を追加">
+                                    ＋
+                                </button>
+
+                            </div>
+
+
+                            <div class="category-items__list">
+
+                                <div class="category-item">
+
+                                    <input class="red-index-field__input" type="text" value="袋" placeholder="例：商品名">
+
+
+                                    <button type="button" class="category-item__remove-button" aria-label="子要素を削除">
+                                        ×
+                                    </button>
+
+                                </div>
+
+
+                                <div class="category-item">
+
+                                    <input class="red-index-field__input" type="text" value="ビジネスバッグ"
+                                        placeholder="例：商品名">
+
+
+                                    <button type="button" class="category-item__remove-button" aria-label="子要素を削除">
+                                        ×
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </section>
 
             </div>
 
 
-            <a href="../" class="glass-button glass-button--primary" style="
-                    min-width: 16rem;
-                    min-height: 3.5rem;
-                    justify-content: center;
-                    font-size: 1rem;
-                ">
-                WORKBENCHへ戻る
-            </a>
+            <!-- =================================================
+                 Add Category
+                 ================================================= -->
+
+            <div class="category-add">
+
+                <button id="category-add-button" type="button" class="glass-button category-add__button">
+                    ＋ カテゴリを追加
+                </button>
+
+            </div>
+
+        </aside>
+
+
+        <!-- =================================================
+             Preview
+             ================================================= -->
+
+        <section class="red-index-preview" aria-labelledby="red-index-preview-title">
+
+            <header class="red-index-preview__header">
+
+                <div>
+
+                    <p class="red-index-preview__eyebrow">
+                        PRINT PREVIEW
+                    </p>
+
+
+                    <h2 id="red-index-preview-title" class="red-index-preview__title">
+                        A4プレビュー
+                    </h2>
+
+                </div>
+
+
+                <div class="red-index-preview__badges">
+
+                    <span class="red-index-preview__badge">
+                        A4縦
+                    </span>
+
+                </div>
+
+            </header>
+
+
+            <div class="red-index-preview__stage">
+
+                <article id="red-index-page" class="red-index-page" aria-label="割引不可商品リストプレビュー">
+
+                    <div id="red-index-content" class="red-index-content">
+
+                        <!-- =====================================
+                             COPY 1
+                             ===================================== -->
+
+                        <section class="red-index-output">
+
+                            <header class="red-index-output__header">
+
+                                <strong class="red-index-output__title">
+                                    割引不可商品リスト
+                                </strong>
+
+
+                                <time class="red-index-output__date">
+                                    2026.08.14
+                                </time>
+
+                            </header>
+
+
+                            <div class="red-index-output__columns">
+
+                                <!-- Left -->
+
+                                <div class="red-index-output__column">
+
+                                    <div class="red-index-output__category">
+
+                                        <strong class="red-index-output__category-name">
+                                            【飲食物】
+                                        </strong>
+
+                                        <span class="red-index-output__items">
+                                            フライドポテト、ジュース、みかん
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="red-index-output__category">
+
+                                        <strong class="red-index-output__category-name">
+                                            【委託商品】
+                                        </strong>
+
+                                        <span class="red-index-output__items">
+                                            袋、ビジネスバッグ
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="red-index-output__category">
+
+                                        <strong class="red-index-output__category-name">
+                                            【対象外】
+                                        </strong>
+
+                                        <span class="red-index-output__items">
+                                            商品A、商品B、商品C
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- Right -->
+
+                                <div class="red-index-output__column">
+
+                                    <div class="red-index-output__category">
+
+                                        <strong class="red-index-output__category-name">
+                                            【サービス】
+                                        </strong>
+
+                                        <span class="red-index-output__items">
+                                            商品D、商品E
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="red-index-output__category">
+
+                                        <strong class="red-index-output__category-name">
+                                            【その他】
+                                        </strong>
+
+                                        <span class="red-index-output__items">
+                                            商品F、商品G、商品H、商品I
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+
+                        <!-- =====================================
+                             COPY 2
+                             ===================================== -->
+
+                        <section class="red-index-output">
+
+                            <header class="red-index-output__header">
+
+                                <strong class="red-index-output__title">
+                                    割引不可商品リスト
+                                </strong>
+
+
+                                <time class="red-index-output__date">
+                                    2026.08.14
+                                </time>
+
+                            </header>
+
+
+                            <div class="red-index-output__columns">
+
+                                <div class="red-index-output__column">
+
+                                    <div class="red-index-output__category">
+
+                                        <strong class="red-index-output__category-name">
+                                            【飲食物】
+                                        </strong>
+
+                                        <span class="red-index-output__items">
+                                            フライドポテト、ジュース、みかん
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="red-index-output__category">
+
+                                        <strong class="red-index-output__category-name">
+                                            【委託商品】
+                                        </strong>
+
+                                        <span class="red-index-output__items">
+                                            袋、ビジネスバッグ
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="red-index-output__category">
+
+                                        <strong class="red-index-output__category-name">
+                                            【対象外】
+                                        </strong>
+
+                                        <span class="red-index-output__items">
+                                            商品A、商品B、商品C
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="red-index-output__column">
+
+                                    <div class="red-index-output__category">
+
+                                        <strong class="red-index-output__category-name">
+                                            【サービス】
+                                        </strong>
+
+                                        <span class="red-index-output__items">
+                                            商品D、商品E
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="red-index-output__category">
+
+                                        <strong class="red-index-output__category-name">
+                                            【その他】
+                                        </strong>
+
+                                        <span class="red-index-output__items">
+                                            商品F、商品G、商品H、商品I
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+
+                        <!-- =====================================
+                             COPY 3
+                             ===================================== -->
+
+                        <section class="red-index-output">
+
+                            <header class="red-index-output__header">
+
+                                <strong class="red-index-output__title">
+                                    割引不可商品リスト
+                                </strong>
+
+
+                                <time class="red-index-output__date">
+                                    2026.08.14
+                                </time>
+
+                            </header>
+
+
+                            <div class="red-index-output__columns">
+
+                                <div class="red-index-output__column">
+
+                                    <div class="red-index-output__category">
+
+                                        <strong class="red-index-output__category-name">
+                                            【飲食物】
+                                        </strong>
+
+                                        <span class="red-index-output__items">
+                                            フライドポテト、ジュース、みかん
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="red-index-output__category">
+
+                                        <strong class="red-index-output__category-name">
+                                            【委託商品】
+                                        </strong>
+
+                                        <span class="red-index-output__items">
+                                            袋、ビジネスバッグ
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="red-index-output__category">
+
+                                        <strong class="red-index-output__category-name">
+                                            【対象外】
+                                        </strong>
+
+                                        <span class="red-index-output__items">
+                                            商品A、商品B、商品C
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="red-index-output__column">
+
+                                    <div class="red-index-output__category">
+
+                                        <strong class="red-index-output__category-name">
+                                            【サービス】
+                                        </strong>
+
+                                        <span class="red-index-output__items">
+                                            商品D、商品E
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="red-index-output__category">
+
+                                        <strong class="red-index-output__category-name">
+                                            【その他】
+                                        </strong>
+
+                                        <span class="red-index-output__items">
+                                            商品F、商品G、商品H、商品I
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+
+                        <!-- =====================================
+                             COPY 4
+                             ===================================== -->
+
+                        <section class="red-index-output">
+
+                            <header class="red-index-output__header">
+
+                                <strong class="red-index-output__title">
+                                    割引不可商品リスト
+                                </strong>
+
+
+                                <time class="red-index-output__date">
+                                    2026.08.14
+                                </time>
+
+                            </header>
+
+
+                            <div class="red-index-output__columns">
+
+                                <div class="red-index-output__column">
+
+                                    <div class="red-index-output__category">
+
+                                        <strong class="red-index-output__category-name">
+                                            【飲食物】
+                                        </strong>
+
+                                        <span class="red-index-output__items">
+                                            フライドポテト、ジュース、みかん
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="red-index-output__category">
+
+                                        <strong class="red-index-output__category-name">
+                                            【委託商品】
+                                        </strong>
+
+                                        <span class="red-index-output__items">
+                                            袋、ビジネスバッグ
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="red-index-output__category">
+
+                                        <strong class="red-index-output__category-name">
+                                            【対象外】
+                                        </strong>
+
+                                        <span class="red-index-output__items">
+                                            商品A、商品B、商品C
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="red-index-output__column">
+
+                                    <div class="red-index-output__category">
+
+                                        <strong class="red-index-output__category-name">
+                                            【サービス】
+                                        </strong>
+
+                                        <span class="red-index-output__items">
+                                            商品D、商品E
+                                        </span>
+
+                                    </div>
+
+
+                                    <div class="red-index-output__category">
+
+                                        <strong class="red-index-output__category-name">
+                                            【その他】
+                                        </strong>
+
+                                        <span class="red-index-output__items">
+                                            商品F、商品G、商品H、商品I
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+                    </div>
+
+                </article>
+
+            </div>
 
         </section>
 
@@ -128,7 +802,112 @@
 
 
     <!-- =====================================================
-         フッター
+         Dynamic Category Template
+         ===================================================== -->
+
+    <template id="category-editor-template">
+
+        <section class="category-editor">
+
+            <header class="category-editor__header">
+
+                <div>
+
+                    <p class="category-editor__number">
+                        CATEGORY
+                    </p>
+
+
+                    <h2 class="category-editor__title">
+                        カテゴリ
+                    </h2>
+
+                </div>
+
+
+                <button type="button" class="category-editor__delete-button">
+                    削除
+                </button>
+
+            </header>
+
+
+            <div class="category-editor__body">
+
+                <div class="red-index-field">
+
+                    <label class="red-index-field__label">
+                        カテゴリ名
+                    </label>
+
+
+                    <input class="red-index-field__input category-editor__name-input" type="text" placeholder="例：飲食物">
+
+                </div>
+
+
+                <div class="category-items">
+
+                    <div class="category-items__heading">
+
+                        <span class="red-index-field__label">
+                            子要素
+                        </span>
+
+
+                        <button type="button" class="category-items__add-button" aria-label="子要素を追加">
+                            ＋
+                        </button>
+
+                    </div>
+
+
+                    <div class="category-items__list">
+
+                        <div class="category-item">
+
+                            <input class="red-index-field__input" type="text" placeholder="例：商品名">
+
+
+                            <button type="button" class="category-item__remove-button" aria-label="子要素を削除">
+                                ×
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </template>
+
+
+    <!-- =====================================================
+         Dynamic Child Template
+         ===================================================== -->
+
+    <template id="category-item-template">
+
+        <div class="category-item">
+
+            <input class="red-index-field__input" type="text" placeholder="例：商品名">
+
+
+            <button type="button" class="category-item__remove-button" aria-label="子要素を削除">
+                ×
+            </button>
+
+        </div>
+
+    </template>
+
+
+    <!-- =====================================================
+         Footer
          ===================================================== -->
 
     <footer class="footer">

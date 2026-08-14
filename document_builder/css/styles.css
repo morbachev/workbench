@@ -478,6 +478,10 @@ body {
 
     font-size:
         0.875rem;
+
+    transition:
+        border-color 120ms ease,
+        box-shadow 120ms ease;
 }
 
 
@@ -513,6 +517,17 @@ body {
 
     opacity:
         1;
+}
+
+/* Focus */
+
+.document-field__input:focus,
+.document-field__textarea:focus {
+    border-color:
+        #8a929d;
+
+    box-shadow:
+        0 0 0 0.18rem rgba(80, 88, 102, 0.1);
 }
 
 
