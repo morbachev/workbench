@@ -5,26 +5,31 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "npm run build:root && npm run build:gosplan13 && npm run build:inventory && npm run build:document",
-    "build:root": "tsc -p tsconfig.json",
+    "build": "npm run build:root && npm run build:gosplan13 && npm run build:inventory && npm run build:red-index && npm run build:document",
+    "build:root": "tsc -p tsconfig.json && esbuild dist/main.js --bundle --format=esm --platform=browser --target=es2020 --outfile=dist/main.bundle.js",
     "build:gosplan13": "tsc -p gosplan13/tsconfig.json",
     "build:inventory": "tsc -p inventory_batch/tsconfig.json",
+    "build:red-index": "tsc -p red_index/tsconfig.json",
     "build:document": "tsc -p document_builder/tsconfig.json && esbuild document_builder/dist/main.js --bundle --format=esm --platform=browser --target=es2020 --outfile=document_builder/dist/main.bundle.js",
-    "check": "npm run check:root && npm run check:gosplan13 && npm run check:inventory && npm run check:document",
+    "check": "npm run check:root && npm run check:gosplan13 && npm run check:inventory && npm run check:red-index && npm run check:document",
     "check:root": "tsc -p tsconfig.json --noEmit",
     "check:gosplan13": "tsc -p gosplan13/tsconfig.json --noEmit",
     "check:inventory": "tsc -p inventory_batch/tsconfig.json --noEmit",
+    "check:red-index": "tsc -p red_index/tsconfig.json --noEmit",
     "check:document": "tsc -p document_builder/tsconfig.json --noEmit",
     "watch:root": "tsc -p tsconfig.json --watch",
     "watch:gosplan13": "tsc -p gosplan13/tsconfig.json --watch",
     "watch:inventory": "tsc -p inventory_batch/tsconfig.json --watch",
+    "watch:red-index": "tsc -p red_index/tsconfig.json --watch",
     "watch:document": "tsc -p document_builder/tsconfig.json --watch"
   },
   "dependencies": {
     "html2canvas": "1.4.1",
-    "jspdf": "4.2.1"
+    "jspdf": "4.2.1",
+    "jszip": "^3.10.1"
   },
   "devDependencies": {
+    "@types/node": "^26.2.0",
     "esbuild": "^0.28.2",
     "typescript": "^7.0.2"
   }

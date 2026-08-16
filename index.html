@@ -36,7 +36,7 @@
 
     <script src="./dist/site-header.js" type="module"></script>
 
-    <script src="./dist/main.js" type="module"></script>
+    <script src="./dist/main.bundle.js" type="module"></script>
 </head>
 
 
@@ -209,9 +209,10 @@
 
                 </a>
 
+
                 <!-- =========================================
-     ビジネス文書出力
-     ========================================= -->
+                     ビジネス文書出力
+                     ========================================= -->
 
                 <a class="tool-card" href="./document_builder/">
 
@@ -247,6 +248,7 @@
                     </span>
 
                 </a>
+
 
                 <!-- =========================================
                      将来追加用
@@ -333,6 +335,243 @@
                 </p>
 
             </noscript>
+
+        </section>
+
+
+        <!-- =================================================
+             バックアップ / 復元
+             ================================================= -->
+
+        <section class="workbench-backup" aria-labelledby="workbench-backup-title">
+
+            <div class="portal-section-heading">
+
+                <p class="portal-section-heading__eyebrow">
+                    DATA BACKUP
+                </p>
+
+                <h2 id="workbench-backup-title" class="portal-section-heading__title">
+                    バックアップ・復元
+                </h2>
+
+                <p class="portal-section-heading__description">
+                    このブラウザに保存されているWORKBENCHのデータをまとめて保存・復元します。
+                </p>
+
+            </div>
+
+
+            <div class="workbench-backup__panel">
+
+
+                <!-- =========================================
+                     説明
+                     ========================================= -->
+
+                <div class="workbench-backup__summary">
+
+                    <div class="workbench-backup__summary-icon" aria-hidden="true">
+
+                        <svg viewBox="0 -960 960 960">
+                            <path
+                                d="M280-120q-33 0-56.5-23.5T200-200v-560q0-33 23.5-56.5T280-840h400q33 0 56.5 23.5T760-760v560q0 33-23.5 56.5T680-120H280Zm0-80h400v-560H280v560Zm200-40 160-160-56-56-64 64v-168h-80v168l-64-64-56 56 160 160Zm0-480q50 0 85-35t35-85H360q0 50 35 85t85 35ZM280-200v-560 560Z" />
+                        </svg>
+
+                    </div>
+
+
+                    <div class="workbench-backup__summary-content">
+
+                        <h3 class="workbench-backup__summary-title">
+                            WORKBENCHの保存データ
+                        </h3>
+
+                        <p class="workbench-backup__summary-description">
+                            文書テンプレート、割引不可商品リスト、定型印刷物を1つのバックアップファイルにまとめます。
+                        </p>
+
+
+                        <div class="workbench-backup__targets" aria-label="バックアップ対象">
+
+                            <span class="workbench-backup__target">
+                                DOCUMENT BUILDER
+                            </span>
+
+                            <span class="workbench-backup__target">
+                                RED INDEX
+                            </span>
+
+                            <span class="workbench-backup__target">
+                                PDF
+                            </span>
+
+                            <span class="workbench-backup__target">
+                                PREVIEW IMAGE
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================================
+                     操作
+                     ========================================= -->
+
+                <div class="workbench-backup__actions">
+
+
+                    <!-- =====================================
+                         エクスポート
+                         ===================================== -->
+
+                    <div class="workbench-backup-action">
+
+                        <div class="workbench-backup-action__heading">
+
+                            <div class="workbench-backup-action__icon" aria-hidden="true">
+
+                                <svg viewBox="0 -960 960 960">
+                                    <path
+                                        d="M440-160v-326L336-382l-56-58 200-200 200 200-56 58-104-104v326h-80ZM240-80q-33 0-56.5-23.5T160-160v-160h80v160h480v-160h80v160q0 33-23.5 56.5T720-80H240Z" />
+                                </svg>
+
+                            </div>
+
+
+                            <div>
+
+                                <p class="workbench-backup-action__eyebrow">
+                                    EXPORT
+                                </p>
+
+                                <h3 class="workbench-backup-action__title">
+                                    バックアップを出力
+                                </h3>
+
+                            </div>
+
+                        </div>
+
+
+                        <p class="workbench-backup-action__description">
+                            現在保存されているデータをまとめてZIPファイルとして保存します。
+                        </p>
+
+
+                        <button id="workbench-backup-export-button" type="button"
+                            class="glass-button workbench-backup-action__button">
+
+                            <svg xmlns="http://www.w3.org/2000/svg" class="glass-button__icon" viewBox="0 -960 960 960"
+                                aria-hidden="true">
+                                <path
+                                    d="M440-160v-326L336-382l-56-58 200-200 200 200-56 58-104-104v326h-80ZM240-80q-33 0-56.5-23.5T160-160v-160h80v160h480v-160h80v160q0 33-23.5 56.5T720-80H240Z" />
+                            </svg>
+
+                            バックアップを出力
+
+                        </button>
+
+                    </div>
+
+
+                    <!-- =====================================
+                         インポート
+                         ===================================== -->
+
+                    <div class="workbench-backup-action">
+
+                        <div class="workbench-backup-action__heading">
+
+                            <div class="workbench-backup-action__icon" aria-hidden="true">
+
+                                <svg viewBox="0 -960 960 960">
+                                    <path
+                                        d="M440-800v326L336-578l-56 58 200 200 200-200-56-58-104 104v-326h-80ZM240-80q-33 0-56.5-23.5T160-160v-160h80v160h480v-160h80v160q0 33-23.5 56.5T720-80H240Z" />
+                                </svg>
+
+                            </div>
+
+
+                            <div>
+
+                                <p class="workbench-backup-action__eyebrow">
+                                    IMPORT
+                                </p>
+
+                                <h3 class="workbench-backup-action__title">
+                                    バックアップから復元
+                                </h3>
+
+                            </div>
+
+                        </div>
+
+
+                        <p class="workbench-backup-action__description">
+                            バックアップZIPを読み込み、現在保存されているデータをバックアップ内容で置き換えます。
+                        </p>
+
+
+                        <input id="workbench-backup-import-input" type="file" accept=".zip,application/zip"
+                            class="workbench-backup__file-input" hidden>
+
+
+                        <button id="workbench-backup-import-button" type="button"
+                            class="glass-button workbench-backup-action__button">
+
+                            <svg xmlns="http://www.w3.org/2000/svg" class="glass-button__icon" viewBox="0 -960 960 960"
+                                aria-hidden="true">
+                                <path
+                                    d="M440-800v326L336-578l-56 58 200 200 200-200-56-58-104 104v-326h-80ZM240-80q-33 0-56.5-23.5T160-160v-160h80v160h480v-160h80v160q0 33-23.5 56.5T720-80H240Z" />
+                            </svg>
+
+                            バックアップを選択
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================================
+                     注意
+                     ========================================= -->
+
+                <div class="workbench-backup__notice">
+
+                    <svg viewBox="0 -960 960 960" aria-hidden="true">
+                        <path
+                            d="M440-280h80v-240h-80v240Zm40-320q17 0 28.5-11.5T520-640q0-17-11.5-28.5T480-680q-17 0-28.5 11.5T440-640q0 17 11.5 28.5T480-600Zm0 520q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z" />
+                    </svg>
+
+
+                    <div>
+
+                        <p class="workbench-backup__notice-title">
+                            復元時は現在の保存データを完全に置き換えます。
+                        </p>
+
+                        <p class="workbench-backup__notice-description">
+                            GOSPLAN13の入力内容とINVENTORY BATCHのCSVはバックアップ対象に含まれません。
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================================
+                     ステータス
+                     ========================================= -->
+
+                <p id="workbench-backup-status" class="workbench-backup__status" aria-live="polite" hidden></p>
+
+            </div>
 
         </section>
 

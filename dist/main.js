@@ -14,14 +14,27 @@
  * カード生成
  *
  * 管理UIはpreset-managerへ委譲する。
+ *
+ * バックアップ:
+ *
+ * DOCUMENT BUILDER
+ * RED INDEX
+ * PRESET DOCUMENTS
+ *     ↓
+ * ZIP出力 / 完全復元
  */
 import { getPresetDocuments } from "./preset/preset-db.js";
 import { renderPresetGrid, renderPresetGridError } from "./preset/preset-render.js";
 import { setupPresetManager } from "./preset/preset-manager.js";
+import { setupWorkbenchBackup } from "./backup/backup.js";
 /* =========================================================
    DOM
    ========================================================= */
 const presetGrid = requireElement("#preset-grid");
+const backupExportButton = requireElement("#workbench-backup-export-button");
+const backupImportButton = requireElement("#workbench-backup-import-button");
+const backupImportInput = requireElement("#workbench-backup-import-input");
+const backupStatus = requireElement("#workbench-backup-status");
 /* =========================================================
    Manager
    ========================================================= */
@@ -31,6 +44,20 @@ const presetManager = setupPresetManager({
      * メイン画面のカードを再描画する。
      */
     onChanged: refreshPresetGrid
+});
+/* =========================================================
+   Backup
+   ========================================================= */
+setupWorkbenchBackup({
+    exportButton: backupExportButton,
+    importButton: backupImportButton,
+    importInput: backupImportInput,
+    status: backupStatus,
+    /**
+     * バックアップ復元後、
+     * ホーム画面の定型印刷物カードを再描画する。
+     */
+    onRestored: refreshPresetGrid
 });
 /* =========================================================
    Initial Load
@@ -53,6 +80,9 @@ async function refreshPresetGrid() {
     catch (error) {
         console.error("定型印刷物を読み込めませんでした。", error);
         renderPresetGridError(presetGrid, "このブラウザに保存されている定型印刷物を読み込めませんでした。");
+    }
+    finally {
+        presetGrid.setAttribute("aria-busy", "false");
     }
 }
 /* =========================================================
