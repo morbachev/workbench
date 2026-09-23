@@ -41,7 +41,7 @@ import {
 
 
 import {
-    DOCUMENT_PDF_FILE_NAME,
+    createDocumentPdfFileName,
     PdfSaveCancelledError,
     saveDocumentPdf
 } from "./pdf.js";
@@ -387,10 +387,6 @@ async function initialize():
     Promise<void> {
 
     wireEvents();
-
-
-    printFileName.textContent =
-        DOCUMENT_PDF_FILE_NAME;
 
 
     try {
@@ -785,6 +781,152 @@ function validateRequiredFields():
 
 
 /* =========================================================
+   Recipient Name
+   ========================================================= */
+
+function getRecipientName():
+    string {
+
+    if (
+        !activeTemplate
+    ) {
+
+        return "";
+    }
+
+
+    const fields =
+        getReferencedFields(
+            activeTemplate
+        );
+
+
+    const exactLabelCandidates =
+        [
+            "相手の名前",
+            "宛名",
+            "宛先名",
+            "相手名"
+        ];
+
+
+    const exactField =
+        fields.find(
+            (
+                field
+            ) =>
+                exactLabelCandidates.includes(
+                    field.label.trim()
+                )
+        );
+
+
+    if (
+        exactField
+    ) {
+
+        return (
+            activeValues[
+            exactField.id
+            ] ??
+            ""
+        );
+    }
+
+
+    const semanticField =
+        fields.find(
+            (
+                field
+            ) => {
+
+                const label =
+                    field.label.trim();
+
+
+                return (
+                    label.includes(
+                        "宛名"
+                    ) ||
+                    label.includes(
+                        "宛先"
+                    ) ||
+                    (
+                        label.includes(
+                            "相手"
+                        ) &&
+                        (
+                            label.includes(
+                                "名前"
+                            ) ||
+                            label.includes(
+                                "氏名"
+                            )
+                        )
+                    )
+                );
+            }
+        );
+
+
+    if (
+        semanticField
+    ) {
+
+        return (
+            activeValues[
+            semanticField.id
+            ] ??
+            ""
+        );
+    }
+
+
+    const genericNameFields =
+        fields.filter(
+            (
+                field
+            ) => {
+
+                const label =
+                    field.label.trim();
+
+
+                return (
+                    label ===
+                    "名前" ||
+                    label ===
+                    "お名前" ||
+                    label ===
+                    "氏名"
+                );
+            }
+        );
+
+
+    if (
+        genericNameFields.length ===
+        1
+    ) {
+
+        const field =
+            genericNameFields[0];
+
+
+        return (
+            activeValues[
+            field.id
+            ] ??
+            ""
+        );
+    }
+
+
+    return "";
+}
+
+
+/* =========================================================
    Open Print Flow
    ========================================================= */
 
@@ -808,6 +950,16 @@ function openPrintFlow():
 
 
     resetPrintFlow();
+
+
+    const recipientName =
+        getRecipientName();
+
+
+    printFileName.textContent =
+        createDocumentPdfFileName(
+            recipientName
+        );
 
 
     if (
@@ -893,9 +1045,14 @@ async function runPdfSaveStep():
 
     try {
 
+        const recipientName =
+            getRecipientName();
+
+
         const result =
             await saveDocumentPdf(
-                documentPage
+                documentPage,
+                recipientName
             );
 
 

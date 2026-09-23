@@ -121,6 +121,76 @@ export class PdfSaveCancelledError
 
 
 /* =========================================================
+   File Name
+   ========================================================= */
+
+/**
+ * PDF保存用のファイル名を生成する。
+ *
+ * 例:
+ * 2026.9.13_山田太郎様.pdf
+ */
+export function createDocumentPdfFileName(
+    recipientName: string,
+    date: Date = new Date()
+): string {
+
+    const year =
+        date.getFullYear();
+
+
+    const month =
+        date.getMonth() +
+        1;
+
+
+    const day =
+        date.getDate();
+
+
+    const sanitizedName =
+        sanitizeFileNamePart(
+            recipientName.trim()
+        );
+
+
+    if (
+        !sanitizedName
+    ) {
+
+        return `${year}.${month}.${day}_文書.pdf`;
+    }
+
+
+    const nameWithHonorific =
+        sanitizedName.endsWith(
+            "様"
+        )
+            ? sanitizedName
+            : `${sanitizedName}様`;
+
+
+    return `${year}.${month}.${day}_${nameWithHonorific}.pdf`;
+}
+
+
+function sanitizeFileNamePart(
+    value: string
+): string {
+
+    return value
+        .replace(
+            /[\\/:*?"<>|]/g,
+            "_"
+        )
+        .replace(
+            /[. ]+$/g,
+            ""
+        );
+}
+
+
+/* =========================================================
    Public API
    ========================================================= */
 
@@ -129,7 +199,8 @@ export class PdfSaveCancelledError
  * ユーザー端末へ保存する。
  */
 export async function saveDocumentPdf(
-    pageElement: HTMLElement
+    pageElement: HTMLElement,
+    recipientName: string
 ): Promise<PdfSaveResult> {
 
     const pdfBlob =
@@ -138,8 +209,15 @@ export async function saveDocumentPdf(
         );
 
 
+    const fileName =
+        createDocumentPdfFileName(
+            recipientName
+        );
+
+
     return savePdfBlob(
-        pdfBlob
+        pdfBlob,
+        fileName
     );
 }
 
@@ -151,7 +229,7 @@ export async function createDocumentPdfBlob(
     pageElement: HTMLElement
 ): Promise<Blob> {
 
-    /*
+    /**
      * Webフォント等があれば、
      * 描画が完了してからキャプチャする。
      */
@@ -170,7 +248,7 @@ export async function createDocumentPdfBlob(
 
     try {
 
-        /*
+        /**
          * class追加後のレイアウトを
          * ブラウザへ反映させる。
          */
@@ -224,7 +302,7 @@ export async function createDocumentPdfBlob(
             });
 
 
-        /*
+        /**
          * A4全面へ現在のプレビューを配置。
          */
         pdf.addImage(
@@ -255,7 +333,8 @@ export async function createDocumentPdfBlob(
    ========================================================= */
 
 async function savePdfBlob(
-    blob: Blob
+    blob: Blob,
+    fileName: string
 ): Promise<PdfSaveResult> {
 
     const browserWindow =
@@ -263,7 +342,7 @@ async function savePdfBlob(
         WindowWithSaveFilePicker;
 
 
-    /*
+    /**
      * 対応ブラウザでは保存先をユーザーに選択してもらい、
      * close()完了まで待つ。
      */
@@ -279,7 +358,7 @@ async function savePdfBlob(
                 await browserWindow
                     .showSaveFilePicker({
                         suggestedName:
-                            DOCUMENT_PDF_FILE_NAME,
+                            fileName,
 
                         types: [
                             {
@@ -310,9 +389,7 @@ async function savePdfBlob(
 
 
             return {
-                fileName:
-                    DOCUMENT_PDF_FILE_NAME,
-
+                fileName,
                 method:
                     "file-picker"
             };
@@ -331,7 +408,7 @@ async function savePdfBlob(
             }
 
 
-            /*
+            /**
              * File System Access APIが存在していても
              * 書き込み不可の場合は通常ダウンロードへ退避。
              */
@@ -344,14 +421,13 @@ async function savePdfBlob(
 
 
     downloadPdfBlob(
-        blob
+        blob,
+        fileName
     );
 
 
     return {
-        fileName:
-            DOCUMENT_PDF_FILE_NAME,
-
+        fileName,
         method:
             "download"
     };
@@ -363,7 +439,8 @@ async function savePdfBlob(
    ========================================================= */
 
 function downloadPdfBlob(
-    blob: Blob
+    blob: Blob,
+    fileName: string
 ): void {
 
     const url =
@@ -383,7 +460,7 @@ function downloadPdfBlob(
 
 
     anchor.download =
-        DOCUMENT_PDF_FILE_NAME;
+        fileName;
 
 
     anchor.hidden =
@@ -404,7 +481,7 @@ function downloadPdfBlob(
         anchor.remove();
 
 
-        /*
+        /**
          * click直後に破棄すると
          * 一部環境で読み込み前に消える可能性を避ける。
          */
@@ -432,7 +509,6 @@ function isAbortError(
     return (
         error instanceof
         DOMException &&
-
         error.name ===
         "AbortError"
     );

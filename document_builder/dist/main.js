@@ -4,7 +4,7 @@ import { downloadDocumentJson, downloadTemplateJson, readDocumentPackageFile } f
 import { renderDocumentFields } from "./form-render.js";
 import { clearBusinessDocument, renderBusinessDocument } from "./document-render.js";
 import { setupTemplateBuilder } from "./template-builder.js";
-import { DOCUMENT_PDF_FILE_NAME, PdfSaveCancelledError, saveDocumentPdf } from "./pdf.js";
+import { createDocumentPdfFileName, PdfSaveCancelledError, saveDocumentPdf } from "./pdf.js";
 /* =========================================================
    Constants
    ========================================================= */
@@ -96,8 +96,6 @@ const templateBuilder = setupTemplateBuilder({
 void initialize();
 async function initialize() {
     wireEvents();
-    printFileName.textContent =
-        DOCUMENT_PDF_FILE_NAME;
     try {
         await requestPersistentStorage();
         await refreshTemplateCollections();
@@ -250,6 +248,54 @@ function validateRequiredFields() {
     return false;
 }
 /* =========================================================
+   Recipient Name
+   ========================================================= */
+function getRecipientName() {
+    if (!activeTemplate) {
+        return "";
+    }
+    const fields = getReferencedFields(activeTemplate);
+    const exactLabelCandidates = [
+        "相手の名前",
+        "宛名",
+        "宛先名",
+        "相手名"
+    ];
+    const exactField = fields.find((field) => exactLabelCandidates.includes(field.label.trim()));
+    if (exactField) {
+        return (activeValues[exactField.id] ??
+            "");
+    }
+    const semanticField = fields.find((field) => {
+        const label = field.label.trim();
+        return (label.includes("宛名") ||
+            label.includes("宛先") ||
+            (label.includes("相手") &&
+                (label.includes("名前") ||
+                    label.includes("氏名"))));
+    });
+    if (semanticField) {
+        return (activeValues[semanticField.id] ??
+            "");
+    }
+    const genericNameFields = fields.filter((field) => {
+        const label = field.label.trim();
+        return (label ===
+            "名前" ||
+            label ===
+                "お名前" ||
+            label ===
+                "氏名");
+    });
+    if (genericNameFields.length ===
+        1) {
+        const field = genericNameFields[0];
+        return (activeValues[field.id] ??
+            "");
+    }
+    return "";
+}
+/* =========================================================
    Open Print Flow
    ========================================================= */
 function openPrintFlow() {
@@ -260,6 +306,9 @@ function openPrintFlow() {
         return;
     }
     resetPrintFlow();
+    const recipientName = getRecipientName();
+    printFileName.textContent =
+        createDocumentPdfFileName(recipientName);
     if (!printFlowDialog.open) {
         printFlowDialog.showModal();
     }
@@ -298,7 +347,8 @@ async function runPdfSaveStep() {
     printSavePdfButton.textContent =
         "PDFを作成中...";
     try {
-        const result = await saveDocumentPdf(documentPage);
+        const recipientName = getRecipientName();
+        const result = await saveDocumentPdf(documentPage, recipientName);
         printStepOne.classList.add("print-flow-step--complete");
         printStepTwo.classList.remove("print-flow-step--disabled");
         printFinalButton.disabled =

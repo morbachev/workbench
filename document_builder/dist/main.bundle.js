@@ -34164,7 +34164,6 @@ E.API.PDFObject = (function() {
 })();
 
 // document_builder/dist/pdf.js
-var DOCUMENT_PDF_FILE_NAME = "\u6587\u66F8.pdf";
 var A4_WIDTH_MM = 210;
 var A4_HEIGHT_MM = 297;
 var PDF_CAPTURE_SCALE = 2;
@@ -34174,9 +34173,24 @@ var PdfSaveCancelledError = class extends Error {
     this.name = "PdfSaveCancelledError";
   }
 };
-async function saveDocumentPdf(pageElement) {
+function createDocumentPdfFileName(recipientName, date = /* @__PURE__ */ new Date()) {
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  const sanitizedName = sanitizeFileNamePart(recipientName.trim());
+  if (!sanitizedName) {
+    return `${year}.${month}.${day}_\u6587\u66F8.pdf`;
+  }
+  const nameWithHonorific = sanitizedName.endsWith("\u69D8") ? sanitizedName : `${sanitizedName}\u69D8`;
+  return `${year}.${month}.${day}_${nameWithHonorific}.pdf`;
+}
+function sanitizeFileNamePart(value) {
+  return value.replace(/[\\/:*?"<>|]/g, "_").replace(/[. ]+$/g, "");
+}
+async function saveDocumentPdf(pageElement, recipientName) {
   const pdfBlob = await createDocumentPdfBlob(pageElement);
-  return savePdfBlob(pdfBlob);
+  const fileName = createDocumentPdfFileName(recipientName);
+  return savePdfBlob(pdfBlob, fileName);
 }
 async function createDocumentPdfBlob(pageElement) {
   if (document.fonts) {
@@ -34206,12 +34220,12 @@ async function createDocumentPdfBlob(pageElement) {
     pageElement.classList.remove("document-page--pdf-capture");
   }
 }
-async function savePdfBlob(blob) {
+async function savePdfBlob(blob, fileName) {
   const browserWindow = window;
   if (typeof browserWindow.showSaveFilePicker === "function") {
     try {
       const handle = await browserWindow.showSaveFilePicker({
-        suggestedName: DOCUMENT_PDF_FILE_NAME,
+        suggestedName: fileName,
         types: [
           {
             description: "PDF\u30D5\u30A1\u30A4\u30EB",
@@ -34227,7 +34241,7 @@ async function savePdfBlob(blob) {
       await writable.write(blob);
       await writable.close();
       return {
-        fileName: DOCUMENT_PDF_FILE_NAME,
+        fileName,
         method: "file-picker"
       };
     } catch (error) {
@@ -34237,17 +34251,17 @@ async function savePdfBlob(blob) {
       console.warn("File System Access API\u306B\u3088\u308BPDF\u4FDD\u5B58\u306B\u5931\u6557\u3057\u305F\u305F\u3081\u3001\u901A\u5E38\u30C0\u30A6\u30F3\u30ED\u30FC\u30C9\u3078\u5207\u308A\u66FF\u3048\u307E\u3059\u3002", error);
     }
   }
-  downloadPdfBlob(blob);
+  downloadPdfBlob(blob, fileName);
   return {
-    fileName: DOCUMENT_PDF_FILE_NAME,
+    fileName,
     method: "download"
   };
 }
-function downloadPdfBlob(blob) {
+function downloadPdfBlob(blob, fileName) {
   const url = URL.createObjectURL(blob);
   const anchor = document.createElement("a");
   anchor.href = url;
-  anchor.download = DOCUMENT_PDF_FILE_NAME;
+  anchor.download = fileName;
   anchor.hidden = true;
   document.body.appendChild(anchor);
   try {
@@ -34329,7 +34343,6 @@ var templateBuilder = setupTemplateBuilder({
 void initialize();
 async function initialize() {
   wireEvents();
-  printFileName.textContent = DOCUMENT_PDF_FILE_NAME;
   try {
     await requestPersistentStorage();
     await refreshTemplateCollections();
@@ -34438,6 +34451,38 @@ function validateRequiredFields() {
   }
   return false;
 }
+function getRecipientName() {
+  if (!activeTemplate) {
+    return "";
+  }
+  const fields = getReferencedFields(activeTemplate);
+  const exactLabelCandidates = [
+    "\u76F8\u624B\u306E\u540D\u524D",
+    "\u5B9B\u540D",
+    "\u5B9B\u5148\u540D",
+    "\u76F8\u624B\u540D"
+  ];
+  const exactField = fields.find((field) => exactLabelCandidates.includes(field.label.trim()));
+  if (exactField) {
+    return activeValues[exactField.id] ?? "";
+  }
+  const semanticField = fields.find((field) => {
+    const label = field.label.trim();
+    return label.includes("\u5B9B\u540D") || label.includes("\u5B9B\u5148") || label.includes("\u76F8\u624B") && (label.includes("\u540D\u524D") || label.includes("\u6C0F\u540D"));
+  });
+  if (semanticField) {
+    return activeValues[semanticField.id] ?? "";
+  }
+  const genericNameFields = fields.filter((field) => {
+    const label = field.label.trim();
+    return label === "\u540D\u524D" || label === "\u304A\u540D\u524D" || label === "\u6C0F\u540D";
+  });
+  if (genericNameFields.length === 1) {
+    const field = genericNameFields[0];
+    return activeValues[field.id] ?? "";
+  }
+  return "";
+}
 function openPrintFlow() {
   if (!activeTemplate) {
     return;
@@ -34446,6 +34491,8 @@ function openPrintFlow() {
     return;
   }
   resetPrintFlow();
+  const recipientName = getRecipientName();
+  printFileName.textContent = createDocumentPdfFileName(recipientName);
   if (!printFlowDialog.open) {
     printFlowDialog.showModal();
   }
@@ -34470,7 +34517,8 @@ async function runPdfSaveStep() {
   printSavePdfButton.disabled = true;
   printSavePdfButton.textContent = "PDF\u3092\u4F5C\u6210\u4E2D...";
   try {
-    const result = await saveDocumentPdf(documentPage);
+    const recipientName = getRecipientName();
+    const result = await saveDocumentPdf(documentPage, recipientName);
     printStepOne.classList.add("print-flow-step--complete");
     printStepTwo.classList.remove("print-flow-step--disabled");
     printFinalButton.disabled = false;
